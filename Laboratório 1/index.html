@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<header>
+    <h1>Laboratório 1 - Visão Computacional</h1>
+  
+    <hr />
+  </header>
+  
+  <body>
+    <h2>Integrantes</h2>
+    <p>
+        Gustavo da Silva Santos             RA: 11202131428<br>
+        Henrique Vicente Ferraro Oliveira   RA: 11201721650<br>
+        Igor Santana Arruda                 RA: 11201722737<br>
+    </p>
+    <hr />
+    <h2>Data de realização dos experimentos</h2>
+    <p>
+        Os experimentos foram realizados no dia 30/06/2024 e 01/07/2024
+    </p>
+    <hr />
+    <h2>Data de publicação do relatório</h2>
+    <p>
+        O relatório foi publicado no dia 02/07/2024
+    </p>
+    <hr />
+
+    <h2>Introdução</h2>
+    <p>
+      Este é o primeiro relatório a ser desenvolvido para a disciplina de Visão Computacional da UFABC em 2024.2, ministrado pelo Prof. Dr. Celso S. Kurashima.
+      Ao longo dele serão realizados experimentos que abordam os conceitos básicos de Visão Computacional e Processamento de Imagens, como:
+      captura, exibição, processamento e salvamento de imagens e ajustes em vídeos através da manipulação dos frames.
+      Além disso, o desenvolvimento deste relatório permitirá também o contato com a linguagem html e plataforma GItHub e GitHub Pages.
+    </p>
+    <hr>
+    <h2>Procedimentos experimentais, análise e discussão dos resultados</h2>
+
+    <h2>Parte 1</h2>
+    <br>
+    <div class="firstQuestion">
+      <h3>
+        (A) Leitura de imagem em arquivo: O programa “L1_1_img.py” realiza a
+        leitura e de imagem gravado num arquivo e mostra a imagem numa janela do
+        linux. Além disso, o programa permite salvar a imagem em arquivo. Execute
+        e verifique o resultado:
+      </h3>
+      <h3>Responda: Por que a janela aberta não mostra a imagem colorida?</h3>
+      <p>
+        No código, a imagem está sendo lida em escala de cinza devido ao parâmetro
+        ‘0’ passado para a função ‘cv.imread()’:
+      </p>
+      <pre>
+        <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+            img cv.imread('messi5.jpg', 0)
+        </code>
+      </pre>
+      <p>
+        Quando você carrega uma imagem usando cv.imread('messi5.jpg', 0), o
+        parâmetro 0 indica que a imagem deve ser lida em escala de cinza
+        (grayscale). Isso significa que img é uma matriz NumPy contendo valores de
+        intensidade de pixel em escala de cinza, não os valores RGB que compõem
+        uma imagem colorida. Ao exibir a imagem usando cv.imshow('image', img), o
+        OpenCV interpreta os valores da matriz img como uma imagem em escala de
+        cinza e, portanto, a janela exibida pelo cv.imshow() mostrará a imagem em
+        tons de cinza.
+      </p>
+      <hr />
+    </div>
+  
+
+    <div class="secondQuestion">
+      <h3>
+        (B) Leitura de vídeo em arquivo: O programa “L1_2_video.py” realiza a
+        leitura de vídeo gravado num arquivo e exibe a sequência das imagens numa
+        janela do linux. Execute e verifique o resultado:
+      </h3>
+      <h3>
+        Modifique o programa para que as imagens sejam exibidas mais rapidamente e
+        depois para que sejam exibidas mais lentamente. Responda: qual a
+        explicação de alteração de velocidade de exibição, e apresente suas
+        soluções detalhadamente.
+      </h3>
+      <h3>Responda: Por que a janela aberta não mostra a imagem colorida?</h3>
+      <p>
+        Para exibir os frames mais rapidamente do que a taxa de quadros original, é necessário atualizar o valor dentro da linha:
+      </p>
+      <pre>
+        <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+          time.sleep(1/25.0)
+        </code>
+      </pre>
+      <p>
+        A reprodução do vídeo fica muito mais rápida se alterarmos para:
+      </p>
+      <pre>
+        <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+          time.sleep(1/10000.0)
+        </code>
+      </pre>
+      <p>
+        A reprodução do vídeo fica muito mais devagar se alterarmos para:
+      </p>
+      <pre>
+        <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+          time.sleep(1/5.0)
+        </code>
+      </pre>
+      <p>
+        A explicação para a alteração de velocidade de exibição reside no parâmetro passado para time.sleep(). Esse parâmetro determina quanto tempo o programa deve esperar entre a exibição de cada frame. Quanto menor o valor (por exemplo, 1/10000.0), mais rapidamente os frames serão exibidos. Quanto maior o valor (por exemplo, 1/5.0), mais lentamente os frames serão exibidos.
+      </p>
+      <hr />
+    </div>
+
+
+    <div class="ThirdQuestion">
+    <h3>
+    (C) Leitura de imagem de câmera: O programa “L1_3_webcam.py” realiza a leitura de imagens da câmera instalada no computador e exibe a sequência das imagens amostradas numa janela do linux. Execute e verifique o resultado:
+      </h3>
+      <h3>
+        Modifique o programa para que as imagens sejam exibidas mais rápidamente e depois para que sejam exibidas mais lentamente. Responda: qual a explicação de alteração de velocidade de exibição, e apresente suas soluções detalhadamente.
+      </h3>
+      <pre>
+        <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+            import numpy as np
+            import cv2 as cv
+            
+            cap = cv.VideoCapture(0)
+            
+            if not cap.isOpened():
+                print("Cannot open camera")
+                exit()
+                
+            while True:
+                # Capture frame-by-frame
+                ret, frame = cap.read()
+                
+                # if frame is read correctly ret is True
+                if not ret:
+                    print("Can't receive frame (stream end?). Exiting ...")
+                    break
+                
+                # Display the resulting frame
+                cv.imshow('frame', frame)
+                
+                # Check for keypress and save image if 'x' is pressed
+                key = cv.waitKey(1)
+                if key == ord('x'):
+                    cv.imwrite('foto1.png', frame)
+                    print("Foto salva como foto1.png")
+                elif key == ord('q'):
+                    break
+            
+            # When everything done, release the capture
+            cap.release()
+            cv.destroyAllWindows()
+        </code>
+      </pre>
+      <p>
+        Foram realizadas as seguintes alterações:
+      </p>
+      <p>
+        - cv.imwrite('foto1.png', frame): Quando a tecla 'x' é pressionada (key == ord('x')), cv.imwrite() é usado para salvar o frame atual (frame) como "foto1.png".
+      </p>
+      <p>
+        - cv.waitKey(1): É usado para aguardar a entrada do teclado por até 1 milissegundo. Se uma tecla for pressionada durante esse tempo, key conterá o valor correspondente à tecla pressionada.
+      </p>
+      <p>
+        - Captação e Exibição de Frames: O loop principal captura continuamente os frames da câmera, exibe-os e espera por uma tecla ser pressionada. Isso permite interação em tempo real com a captura de vídeo da câmera.
+      </p>
+      <p>
+        Com esta implementação, o programa agora captura e exibe os frames da câmera, permitindo ao usuário salvar um frame específico como "foto1.png" ao pressionar a tecla 'x'.
+      </p>
+      <hr />
+    </div>
+
+
+    <div class="FourthQuestion">
+        <h3>
+            (D) Gravação de vídeo da câmera: O programa “L1_4_webcap.py” realiza a leitura de imagens da câmera, exibr a sequência de imagens numa nova janela do Linux, e ao digitar a tecla “q” salva toda a sequência de imagens num arquivo “saida.avi” no formato AVI de vídeo. Execute e verifique o resultado:
+          </h3>
+          <h3>
+            Altere: modifique o programa para que as imagens gravadas estejam “normais” no arquivo de video salvo, e apresentem uma velocidade de exibição adequada. Apresente o resultado e sua solução detalhadamente
+          </h3>
+          <P>
+            Código abaixo:
+          </P>
+          <pre>
+            <code style="background-color: #e0e0e0; padding: 5px; margin: 0px; display: block;">
+                import numpy as np
+                import cv2 as cv
+                
+                cap = cv.VideoCapture(0)
+                
+                # Get current width and height of frame
+                width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
+                height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
+                
+                # Define Video Frame Rate in fps
+                fps = 30.0  # Pode ajustar conforme necessário
+                
+                # Define the codec and create VideoWriter object
+                fourcc = cv.VideoWriter_fourcc(*'XVID')
+                out = cv.VideoWriter('saida.avi', fourcc, fps, (width, height))
+                
+                while cap.isOpened():
+                    ret, frame = cap.read()
+                    if not ret:
+                        print("Can't receive frame (stream end?). Exiting ...")
+                        break
+                    
+                    # Flip frame horizontally to make it normal (not mirrored)
+                    frame = cv.flip(frame, 1)
+                    
+                    # Write the flipped frame to the video file
+                    out.write(frame)
+                    
+                    # Display the frame
+                    cv.imshow('frame', frame)
+                    
+                    # Check for 'q' key press to exit
+                    if cv.waitKey(1) == ord('q'):
+                        break
+                
+                # Release everything if job is finished
+                cap.release()
+                out.release()
+                cv.destroyAllWindows()
+                
+            </code>
+          </pre>
+          <P>
+            Alterações no código:
+          </P>
+          <ul>
+            <li>
+                <span class="code">cap.get(cv.CAP_PROP_FRAME_WIDTH)</span> e 
+                <span class="code">cap.get(cv.CAP_PROP_FRAME_HEIGHT)</span>: 
+                São usados para obter as dimensões do frame de entrada da câmera.
+            </li>
+            <li>
+                <span class="code">cv.VideoWriter('saida.avi', fourcc, fps, (width, height))</span>: 
+                Cria um objeto VideoWriter para gravar o vídeo no arquivo "saida.avi" usando o codec 'XVID', a taxa de quadros 
+                <span class="code">fps</span> e as dimensões do frame (<span class="code">width</span>, <span class="code">height</span>).
+            </li>
+            <li>
+                <span class="code">cv.flip(frame, 1)</span>: 
+                Inverte horizontalmente o frame capturado para evitar que ele seja espelhado. Isso é feito para garantir que as imagens gravadas sejam "normais".
+            </li>
+            <li>
+                <span class="code">out.write(frame)</span>: 
+                Grava o frame atual (invertido horizontalmente) no arquivo de vídeo usando o objeto VideoWriter.
+            </li>
+            <li>
+                <span class="code">cv.waitKey(1) == ord('q')</span>: 
+                Aguarda até 1 milissegundo por uma entrada de teclado. Se a tecla 'q' for pressionada, o loop é interrompido e o programa termina.
+            </li>
+        </ul>
+
+        <P>
+            Com essas modificações, o código agora grava um vídeo com os frames na orientação correta e exibe a uma taxa de quadros controlada pela variável fps.
+        </P>
+        <hr/>
+    </div>
+
+    <div class="firthQuestion">
+        <h3>
+            Responda: se for necessário alterar a imagem, ou seja realizando alguma operação de processamento nela, em que ponto dos quatro programas estudados isso deve ser realizado?
+        </h3>
+        <p>
+            Essas operações de processamento devem ser alteradas em:
+        </p>
+        <ul>
+        <li>
+            <strong>Antes de salvar uma imagem ou gravar um frame em vídeo:</strong> 
+            Você pode processar o frame para realizar qualquer operação desejada, como filtragem, detecção de objetos, alteração de cores, entre outros.
+        </li>
+        <li>
+            <strong>Antes de exibir um frame na janela:</strong> 
+            Você pode realizar operações de processamento para preparar o frame para a exibição, como conversões de cor, ajustes de brilho/contraste, aplicação de máscaras, entre outros.
+        </li>
+        </ul>
+        <p>
+            Realizar operações de processamento nos momentos adequados garante que você esteja trabalhando com os dados de imagem corretos e que as operações sejam aplicadas conforme necessário antes de exibir ou salvar os frames processados.
+        </p>
+        <hr>
+        <br>
+        <br>
+    </div>
+    <h2>Parte 2</h2>
+    <div class="FirstQuestionP2">
+        <h3>
+            (A) Obter com a webcam uma foto geral com TODOS os integrantes da EQUIPE,
+            sendo que cada um deve usar uma roupa de cor diferente, melhor se for com
+            as cores Vermelho, Verde e Azul destacadas. Cuidem para a iluminação ficar
+            boa. Podem usar qualquer editor de imagem caso necessitem “compor” as
+            fotos individuais para formar a foto geral.
+          </h3>
+        <img src="fotogeral.png" width="640" height="360">
+        <hr />
+    </div>
+
+    <div class="SecondQuestionP2">
+        <h3>
+            (B) Façam uma foto-montagem “Avatar”, juntando todos avatares numa única
+            imagem. Meu “Avatar” por exemplo, é o Pikachu... A ordem dos avatares
+            deve ser a mesma da foto geral. Podem usar qualquer editor de imagem para
+            “compor” as fotos individuais que cada um da equipe vai fornecer.
+          </h3>
+        <img src="avatar.png" width="640" height="360">
+        <hr />
+    </div>
+    <div class="ThirdQuestionP2">
+        <h3>
+            (C) Filmem com a webcam DOIS vídeos com pessoas e DOIS videos com um objeto:
+          </h3>
+
+        <P>
+            i) Mudanças lentas de movimento (Pessoa)
+        </P>
+        <video width="640" height="360" controls>
+            <source src="vid1.mp4" type="video/mp4">
+        </video>
+        <P>
+            ii) Mudanças rápidas de movimento (Pessoa)
+        </P>
+        <video width="640" height="360" controls>
+            <source src="vid2.mp4" type="video/mp4">
+        </video>
+        <P>
+          iii) Mudanças lentas de movimento (Objeto)
+        </P>
+        <video width="640" height="360" controls>
+            <source src="vid3.mp4" type="video/mp4">
+        </video>
+        <P>
+          iv) Mudanças rápidas de movimento (Objeto)
+        </P>
+        <video width="640" height="360" controls>
+            <source src="vid4.mp4" type="video/mp4">
+        </video>
+        <hr />
+    </div>
+
+    <h2>Conclusão</h2>
+    <P>
+      Ao finalizar este primeiro relatório foi possível concluir que as atividades propostas ocorreram de acordo com o esperado.
+      Os exercícios aqui expostos garantiram ao grupo um primeiro contato com a linguagem html para elaboração deste relatório e publicação online.
+      Além de permitir o contato com conceitos iniciais de processamento de imagem, por meio da captura, exibição, processamento e salvamento de imagens e vídeos através da manipulação dos frames.
+    </P>
+  </body>
+  </html>
