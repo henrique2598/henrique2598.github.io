@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro</title>
+</head>
+<header>
+    <h1>FORMULÁRIO TESTE </h1>
+    <hr />
+    <link href="style.css" rel="stylesheet">  
+</header>
+  <style type="text/css">
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+    </style>
+   
+<body>
+    <form action="processa_form.php" method="POST">
+        <p>Nome: <input type="text" placeholder="Nome" name="nome" required /></p>
+        <p>E-mail: <input type="email" placeholder="E-mail" name="email" required /></p>
+        <p>Data de Nascimento: <input type="date" name="aniversario" required /></p>
+        <p>Telefone: <input type="tel" placeholder="Celular" name="celular" required /></p>
+        <p>Senha: <input type="password" placeholder="Senha" name="senha" required /></p>
+        <p><button type="submit">Cadastrar</button></p>
+    </form>
+</body>
+</html>
