@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Autenticação Biométrica</title>
+    <style>
+        svg {
+            font-family: Arial, sans-serif;
+        }
+        .rect {
+            fill: #e0e0e0;
+            stroke: #000;
+            stroke-width: 2;
+            rx: 10; 
+        }
+        .arrow {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2;
+            marker-end: url(#arrowhead);
+        }
+        .highlight {
+            fill: #b3e0ff; /* Azul claro */
+        }
+        .error {
+            fill: #ffcccb; /* Vermelho claro */
+        }
+    </style>
 </head>
 <body>
     <h2>Integrantes</h2>
@@ -13,7 +36,11 @@
         Igor Santana Arruda                 RA: 11201722737<br>
     </p>
     <hr />
-    <h1>Sistema de Autenticação Biométrica</h1>
+    <!---------------------------------------->
+    <!----------Cenário de aplicação---------->
+    <!---------------------------------------->
+    
+    <h1>Contexto e Cenários de Aplicação</h1>
 
     <h2>Objetivo do Sistema</h2>
     <p>
@@ -53,5 +80,74 @@
         <li>Treinamento do sistema: O sistema será treinado com um conjunto de imagens faciais dos funcionários autorizados para garantir a alta precisão do reconhecimento.</li>
         <li>Monitoramento e manutenção: O sistema será monitorado periodicamente para garantir seu bom funcionamento e atualizado com as últimas tecnologias de reconhecimento facial.</li>
     </ul>
+    <!-------------------------------------------------->
+    <!----------Modelagem Funcional de Sistema---------->
+    <!-------------------------------------------------->
+    <hr />
+    <h1>Modelagem funcional do sistema - Diagrama de Fluxo</h1>
+    <svg width="800" height="700">
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" />
+            </marker>
+        </defs>
+    
+        <rect id="rect1" class="rect" x="100" y="50" width="200" height="50" />
+        <text x="200" y="80" text-anchor="middle">Funcionário se aproxima</text>
+    
+        <rect id="rect2" class="rect highlight" x="100" y="150" width="200" height="50" />
+        <text x="200" y="180" text-anchor="middle">Captura de Imagem Facial</text>
+    
+        <rect id="rect3" class="rect highlight" x="100" y="250" width="200" height="50" />
+        <text x="200" y="280" text-anchor="middle">Reconhecimento Facial</text>
+    
+        <rect id="rect4" class="rect" x="50" y="350" width="300" height="50" />
+        <text x="200" y="380" text-anchor="middle">Houve Correspondência?</text>
+    
+        <rect id="rect5" class="rect highlight" x="100" y="450" width="80" height="50" />
+        <text x="140" y="480" text-anchor="middle">Sim</text>
+    
+        <rect id="rect6" class="rect highlight" x="100" y="550" width="200" height="50" />
+        <text x="200" y="580" text-anchor="middle">Autenticação</text>
+    
+        <rect id="rect7" class="rect" x="100" y="650" width="200" height="50" />
+        <text x="200" y="680" text-anchor="middle">Realizado a liberação</text>
+    
+        <rect id="rect8" class="rect highlight" x="250" y="450" width="80" height="50" />
+        <text x="290" y="480" text-anchor="middle">Não</text>
+    
+        <path class="arrow" d="M200 100 V130" />
+        <path class="arrow" d="M200 200 V230" />
+        <path class="arrow" d="M200 300 V330" />
+        <path class="arrow" d="M140 500 V530" />
+        <path class="arrow" d="M200 600 V630" />
+        <path class="arrow" d="M200 400 H140 V430" />
+        <path class="arrow" d="M200 400 H290 V430" />
+        <path class="arrow" d="M360 480 V280 H320" />  
+        <line x1="330" y1="480" x2="360" y2="480" stroke="black" stroke-width="2" />
+    </svg>
+    <h2>Explicação do Diagrama de Fluxo</h2>
+    <h3>Fluxo de Dados:</h3>
+    <p>1. Funcionário se aproxima da área restrita ou tenta acessar a intranet.<br>
+    Fluxo: Solicitação de Acesso → Captura de Imagem Facial</p>
+    
+    <p>2.Captura de Imagem Facial:<br>
+    Captura a imagem facial do Funcionário.<br>
+    Fluxo: Imagem Facial Capturada → Reconhecimento Facial</p>
+    
+    
+    <p>3. Reconhecimento facial ompara a imagem capturada com o Banco de Dados de Imagens Faciais.<br>
+    Se houver correspondência:<br>
+    Fluxo: Correspondência Encontrada → Autenticação<br>
+    Se não houver correspondência:<br>
+    Fluxo: Reconhecimento facial</p>
+    
+    <p>4.Autenticação:<br>
+    Se autenticado, libera o acesso ao Funcionário.<br>
+    Fluxo: Acesso Liberado → Registro de Acesso</p>
+    
+    <p>5.Registro de Acesso:<br>
+    Registra a tentativa de acesso, incluindo data, hora, nome do usuário e resultado.<br>
+    Fluxo: Dados do Acesso → Armazenamento no Registro de Acesso</p>
 </body>
 </html>
