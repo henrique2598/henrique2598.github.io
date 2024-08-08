@@ -46,38 +46,91 @@ def DetectaEmocao(detected_face):
 	return emotion
 
 
+def GerarCondicionalDeEmocao(emotion):
+	pass
+
+
+def GravarNoBanco(aluno, periodo, horario):
+	pass
+
+
+def GerarRelatorio():
+	pass
 
 #----------------------------
 #-      Loop Principal      -
 #----------------------------
-while(True):
-	# Lê a webcam
-	ret, img = cap.read()
-	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-	# Detecta os rostos
-	faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+# Define o tamanho desejado para a janela
+w = 960
+h = 1080
+# Define a janela de exibição das imagens, com tamanho automático
+winName = 'Chamada Virtual'
+canvas = np.ones((300, 400, 3)) * 255 #imagem 400x300, com fundo branco e 3 canais para as cores
+cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
+# Posiciona a janela na metade direita do (meu) monitor
+cv2.moveWindow(winName, 100, 100)
+
+# Repetição - Dia de Aula
+DandoAula=True
+while(DandoAula==True):
+	#Exibe tela inicial com informações da turma
+	Periodo = 0
+
+	cv2.imshow(winName, canvas)
+
+	# Decide se é entrada ou saída dos alunos
+	while (Periodo==0):
+		if cv2.waitKey(1) & 0xFF == ord('e'):
+			Periodo = 1
+		elif cv2.waitKey(1) & 0xFF == ord('s'):
+			Periodo = 2
+
+	# Exibe o Loop para registro dos alunos
+	Cadastrando=True
+	while(Cadastrando==True):
+		# Lê a webcam
+		ret, img = cap.read()
+		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+		# Detecta os rostos
+		faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+		
+		# Percorre os rostos detectados
+		for (x,y,w,h) in faces:
+			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2) #draw rectangle to main image
+			
+			# Recorta o rosto detectado e pré-processa a imagem
+			detected_face = img[int(y):int(y+h), int(x):int(x+w)] #crop detected face
+			detected_face = cv2.cvtColor(detected_face, cv2.COLOR_BGR2GRAY) #transform to gray scale
+			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
+			
+			#Validar se a turma está correta
+
+			# Função que detecta a emoção
+			emotion = DetectaEmocao(detected_face)
+			
+			#write emotion text above rectangle
+			cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+			
+		# Atualiza a tela de cadastro
+		cv2.imshow(winName,img)
+
+		# Verifica se o cadastro foi concluído
+		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
+			Cadastrando=False
 	
-	# Percorre os rostos detectados
-	for (x,y,w,h) in faces:
-		cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2) #draw rectangle to main image
-		
-		# Recorta o rosto detectado e pré-processa a imagem
-		detected_face = img[int(y):int(y+h), int(x):int(x+w)] #crop detected face
-		detected_face = cv2.cvtColor(detected_face, cv2.COLOR_BGR2GRAY) #transform to gray scale
-		detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
-		
-		# Função que detecta a emoção
-		emotion = DetectaEmocao(detected_face)
-		
-		#write emotion text above rectangle
-		cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-		
+	# Decide o fluxo com base no período
+	if Periodo == 1:
+		# Finalizou a entrada - Volta para tela inicial   
+		Periodo = 0
+	elif Periodo == 2:
+		# Finalizou a saída - gerar relatório e encerrar o programa
+		GerarRelatorio()
+		# Atualiza a tela de encerramento
+		cv2.imshow(winName,img)
+		DandoAula==False
 
-	cv2.imshow('img',img)
-
-	if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
-		break
 
 #kill open cv things		
 cap.release()
