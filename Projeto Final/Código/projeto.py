@@ -17,9 +17,9 @@ cap = cv2.VideoCapture(0)
 #-   interface initialization   -
 #--------------------------------
 #Carrega o backgroud de cada etapa
-TelaInicial = cv2.imread("TelaInicial.png")
-TelaCadastro = cv2.imread("TelaCadastro.png")
-TelaEncerramento = cv2.imread("TelaEncerramento.png")
+TelaInicial = cv2.imread("Assets/Background-Inicial.png")
+TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
+TelaEncerramento = cv2.imread("Assets/Background-Encerramento.png")
 
 # Define a janela de exibição das imagens, com tamanho automático
 winName = 'Chamada Virtual'
@@ -141,7 +141,8 @@ while(DandoAula==True):
 		GerarRelatorio()
 		# Atualiza a tela de encerramento
 		cv2.imshow(winName,TelaEncerramento)
-		DandoAula = False
+		if cv2.waitKey(1) & 0xFF == ord('x'):
+			DandoAula = False
 
 
 #kill open cv things		
