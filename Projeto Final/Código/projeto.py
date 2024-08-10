@@ -22,7 +22,7 @@ cap = cv2.VideoCapture(0)
 #Carrega o backgroud de cada etapa
 TelaInicial = cv2.imread("Assets/Background-Inicial.png")
 TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
-TelaEncerramento = cv2.imread("Assets/Background-Encerramento.png")
+TelaEncerramento = cv2.imread("Assets/Background-Final.png")
 
 # Convert JSON String to Python
 json_file_path = "Assets/class_details.json"
@@ -148,7 +148,7 @@ while(DandoAula==True):
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
 				# Reação personalizada de acordo com a emoção
-				GerarCondicionalDeEmocao()
+				GerarCondicionalDeEmocao(Student_emotion)
 				# Grava as informações da turma
 				GravarNoBanco(Student_Name, Student_emotion, Periodo, datetime.now())
 
@@ -156,11 +156,11 @@ while(DandoAula==True):
 		img = cv2.hconcat([cam, TelaCadastro])
 
 		#write total students text above rectangle
-		cv2.putText(img, Total_Students, (920, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		cv2.putText(img, str(Total_Students), (920, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		#write student text above rectangle
-		cv2.putText(img, Student_Name, (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		cv2.putText(img, str(Student_Name), (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		#write emotion text above rectangle
-		cv2.putText(img, Student_emotion, (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		cv2.putText(img, str(Student_emotion), (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		cv2.imshow(winName,img)
 
 		# Verifica se o cadastro foi concluído
@@ -176,8 +176,9 @@ while(DandoAula==True):
 		GerarRelatorio()
 		# Atualiza a tela de encerramento
 		cv2.imshow(winName,TelaEncerramento)
-		if cv2.waitKey(1) & 0xFF == ord('x'):
-			DandoAula = False
+		while (DandoAula==True):
+			if cv2.waitKey(1) & 0xFF == ord('x'):
+				DandoAula = False
 
 
 #kill open cv things		
