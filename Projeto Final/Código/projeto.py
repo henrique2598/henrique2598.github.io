@@ -85,29 +85,39 @@ def GerarCondicionalDeEmocao(emotion):
 	pass
 
 
-def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario):
+def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Students):
 	# Grava a entrada do aluno
 	if (periodo == 1):
 		# Verifica se o aluno já foi ou não registrado
-		new_row = {'Nome do Aluno': aluno, 'Horário Entrada': horario, 'Emoção Entrada': emocao, 'Horário Saída': '', 'Emoção Saída': ''}
-		df_ListaDePresenca.loc[len(df_ListaDePresenca)] = new_row
-		# O aluno ainda marcou a entrada
-
-		# O aluno já marcou a entrada
-		
-
-
+		if (df_ListaDePresenca == aluno).any().any():
+			# O aluno já marcou a entrada
+			pass
+		else:
+		# O aluno ainda não marcou a entrada
+			new_row = {'Nome do Aluno': aluno, 'Horário Entrada': horario, 'Emoção Entrada': emocao, 'Horário Saída': '', 'Emoção Saída': ''}
+			df_ListaDePresenca.loc[len(df_ListaDePresenca)] = new_row
+			# Atualiza os alunos presentes
+			Total_Students+=1
 	# Grava a saída do aluno
 	else:
 		# Verifica se o aluno marcou a entrada
-		new_row = {'Nome do Aluno': aluno, 'Horário Entrada': horario, 'Emoção Entrada': emocao, 'Horário Saída': '', 'Emoção Saída': ''}
-		df_ListaDePresenca.loc[len(df_ListaDePresenca)] = new_row
-		
-		# O aluno marcou a entrada
-
+		if (df_ListaDePresenca == aluno).any().any():
+			# O aluno marcou a entrada - identifica o index
+			index = df_ListaDePresenca.index[df_ListaDePresenca['Nome do Aluno'] == aluno].tolist()
+			# Verifica se o aluno marcou a saída
+			if (df_ListaDePresenca.iloc[index[0]]['Emoção Saída'] == ''):
+				# O aluno não marcou a saída			
+				df_ListaDePresenca.at[index[0], 'Horário Saída'] = horario
+				df_ListaDePresenca.at[index[0], 'Emoção Saída'] = emocao
+				# Atualiza os alunos presentes
+				Total_Students+=1
 		# O aluno não marcou a entrada
+		else:
+			pass
+		
 
-	return df_ListaDePresenca
+
+	return df_ListaDePresenca, Total_Students
 
 def GerarRelatorio(df_ListaDePresenca):
 	# print dataframe.
@@ -169,14 +179,13 @@ while(DandoAula==True):
 			Student_Name = DetectaAluno
 
 			if (Student_Name != ""):
-				# Atualiza os alunos presentes
-				Total_Students+=1
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
 				# Reação personalizada de acordo com a emoção
 				GerarCondicionalDeEmocao(Student_emotion)
 				# Grava as informações da turma
-				df_ListaDePresenca = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now())
+				Student_Name = 'Aluno1'
+				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
 
 
 		# Atualiza a tela de cadastro
