@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 from keras.utils import img_to_array
 import json
+from datetime import datetime
 
 
 
@@ -79,7 +80,7 @@ def GerarCondicionalDeEmocao(emotion):
 	pass
 
 
-def GravarNoBanco(aluno, periodo, horario):
+def GravarNoBanco(aluno, emocao, periodo, horario):
 	pass
 
 
@@ -112,8 +113,9 @@ while(DandoAula==True):
 			TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
 			cv2.putText(TelaCadastro, "Saida", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
-	# Habilita a etapa de cadastro
+	# Habilita a etapa de cadastro e inicializa as variáveis
 	Cadastrando = True
+	Total_Students = 0
 
 	# Exibe o Loop para registro dos alunos
 	while(Cadastrando==True):
@@ -124,6 +126,10 @@ while(DandoAula==True):
 		# Detecta os rostos
 		faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 		
+		# Limpa as variáveis
+		Student_Name = ""
+		Student_emotion = ""
+
 		# Percorre os rostos detectados
 		for (x,y,w,h) in faces:
 			cv2.rectangle(cam,(x,y),(x+w,y+h),(255,0,0),2) #draw rectangle to main image
@@ -134,15 +140,27 @@ while(DandoAula==True):
 			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
 			
 			#Validar se a turma está correta
+			Student_Name = DetectaAluno
 
-			# Função que detecta a emoção
-			emotion = DetectaEmocao(detected_face)
-			
-			#write emotion text above rectangle
-			cv2.putText(cam, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-			
+			if (Student_Name != ""):
+				# Atualiza os alunos presentes
+				Total_Students+=1
+				# Função que detecta a emoção
+				Student_emotion = DetectaEmocao(detected_face)
+				# Reação personalizada de acordo com a emoção
+				GerarCondicionalDeEmocao()
+				# Grava as informações da turma
+				GravarNoBanco(Student_Name, Student_emotion, Periodo, datetime.now())
+
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCadastro])
+
+		#write total students text above rectangle
+		cv2.putText(img, Total_Students, (920, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		#write student text above rectangle
+		cv2.putText(img, Student_Name, (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		#write emotion text above rectangle
+		cv2.putText(img, Student_emotion, (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		cv2.imshow(winName,img)
 
 		# Verifica se o cadastro foi concluído
