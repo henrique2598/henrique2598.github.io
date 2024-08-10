@@ -6,6 +6,7 @@ import cv2
 from keras.utils import img_to_array
 import json
 from datetime import datetime
+import pandas as pd
 
 
 
@@ -41,6 +42,10 @@ cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
 
 # Posiciona a janela na metade direita do (meu) monitor
 cv2.moveWindow(winName, 100, 100)
+
+
+# Create the pandas DataFrame
+df_ListaDePresenca = pd.DataFrame(columns=['Nome do Aluno', 'Horário Entrada', 'Emoção Entrada', 'Horário Saída', 'Emoção Saída'])
 
 
 
@@ -80,13 +85,34 @@ def GerarCondicionalDeEmocao(emotion):
 	pass
 
 
-def GravarNoBanco(aluno, emocao, periodo, horario):
-	pass
+def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario):
+	# Grava a entrada do aluno
+	if (periodo == 1):
+		# Verifica se o aluno já foi ou não registrado
+		new_row = {'Nome do Aluno': aluno, 'Horário Entrada': horario, 'Emoção Entrada': emocao, 'Horário Saída': '', 'Emoção Saída': ''}
+		df_ListaDePresenca.loc[len(df_ListaDePresenca)] = new_row
+		# O aluno ainda marcou a entrada
+
+		# O aluno já marcou a entrada
+		
 
 
-def GerarRelatorio():
-	pass
+	# Grava a saída do aluno
+	else:
+		# Verifica se o aluno marcou a entrada
+		new_row = {'Nome do Aluno': aluno, 'Horário Entrada': horario, 'Emoção Entrada': emocao, 'Horário Saída': '', 'Emoção Saída': ''}
+		df_ListaDePresenca.loc[len(df_ListaDePresenca)] = new_row
+		
+		# O aluno marcou a entrada
 
+		# O aluno não marcou a entrada
+
+	return df_ListaDePresenca
+
+def GerarRelatorio(df_ListaDePresenca):
+	# print dataframe.
+	print(df_ListaDePresenca)
+	
 #----------------------------
 #-      Loop Principal      -
 #----------------------------
@@ -150,7 +176,8 @@ while(DandoAula==True):
 				# Reação personalizada de acordo com a emoção
 				GerarCondicionalDeEmocao(Student_emotion)
 				# Grava as informações da turma
-				GravarNoBanco(Student_Name, Student_emotion, Periodo, datetime.now())
+				df_ListaDePresenca = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now())
+
 
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCadastro])
@@ -173,7 +200,7 @@ while(DandoAula==True):
 		Periodo = 0
 	elif Periodo == 2:
 		# Finalizou a saída - gerar relatório e encerrar o programa
-		GerarRelatorio()
+		GerarRelatorio(df_ListaDePresenca)
 		# Atualiza a tela de encerramento
 		cv2.imshow(winName,TelaEncerramento)
 		while (DandoAula==True):
