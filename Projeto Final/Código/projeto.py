@@ -4,6 +4,8 @@
 import numpy as np
 import cv2
 from keras.utils import img_to_array
+import json
+
 
 
 #-----------------------------
@@ -20,6 +22,17 @@ cap = cv2.VideoCapture(0)
 TelaInicial = cv2.imread("Assets/Background-Inicial.png")
 TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
 TelaEncerramento = cv2.imread("Assets/Background-Encerramento.png")
+
+# Convert JSON String to Python
+json_file_path = "Assets/class_details.json"
+
+with open(json_file_path, "r", encoding="utf-8") as j:
+     class_details = json.loads(j.read())
+
+# Print values using keys
+cv2.putText(TelaInicial, class_details['Disciplina'], (190, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+cv2.putText(TelaInicial, class_details['Turma'], (140, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+cv2.putText(TelaInicial, class_details['Professor'], (190, 250), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
 # Define a janela de exibição das imagens, com tamanho automático
 winName = 'Chamada Virtual'
@@ -87,13 +100,17 @@ Cadastrando=False
 while(DandoAula==True):
 	#Exibe tela inicial com informações da turma
 	cv2.imshow(winName, TelaInicial)
-
+	
 	# Decide se é entrada ou saída dos alunos
 	while (Periodo==0):
 		if cv2.waitKey(1) & 0xFF == ord('e'):
 			Periodo = 1
+			TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
+			cv2.putText(TelaCadastro, "Entrada", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		elif cv2.waitKey(1) & 0xFF == ord('s'):
 			Periodo = 2
+			TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
+			cv2.putText(TelaCadastro, "Saida", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
 	# Habilita a etapa de cadastro
 	Cadastrando = True
