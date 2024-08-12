@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    
+}
+
+.imagem-canto-superior-direito {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px; 
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 400px;
+    margin-right: 400px; 
+    background: repeating-linear-gradient(20deg, #090131, #02005e 20px, #012a4d 40px); /* Gradiente linear repetido */
+}
+
+
+header {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    color: white;
+    height: 150px;
+    border: 2px solid #000
+}
+header::before {
+    content: "";
+    background-image: url('bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.imagem-canto-superior-direito {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+    height: 100px;
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    padding: 50px ;
+}
+
+.fora {
+    background-color: rgba(255, 255, 255, 0.897);
+    border: 2px solid #000
+}
+
+.corpo {
+    margin-left: 25px;
+    margin-right: 25px; 
+     
+}
+
+ul {
+    margin: 10px 0;
+}
+li {
+    margin: 5px 0;
+}
+
+
+
+

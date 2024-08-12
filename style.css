@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.imagem-canto-superior-direito {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px; 
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 400px; /* Margem em todos os cantos */
+    margin-right: 400px; /* Margem em todos os cantos */
+    background-image: url('fundo.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    
+}
+
+
+header {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    color: white;
+    height: 150px;
+    border: 2px solid #000
+}
+header::before {
+    content: "";
+    background-image: url('bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.imagem-canto-superior-direito {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+    height: 100px;
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    padding: 50px ;
+}
+
+.fora {
+    background-color: rgba(255, 255, 255, 0.897);
+    border: 2px solid #000
+}
+
+.corpo {
+    margin-left: 25px;
+    margin-right: 25px;  
+}
+
+.button-table {
+    width: 50%; 
+    border-collapse: collapse;
+}
+
+.button-table td {
+    padding: 5px; 
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #000000;
+    border: none;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button:active {
+    transform: scale(0.95);
+}

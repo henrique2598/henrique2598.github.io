@@ -4,150 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Autenticação Biométrica</title>
-    <style>
-        svg {
-            font-family: Arial, sans-serif;
-        }
-        .rect {
-            fill: #e0e0e0;
-            stroke: #000;
-            stroke-width: 2;
-            rx: 10; 
-        }
-        .arrow {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2;
-            marker-end: url(#arrowhead);
-        }
-        .highlight {
-            fill: #b3e0ff; /* Azul claro */
-        }
-        .error {
-            fill: #ffcccb; /* Vermelho claro */
-        }
-    </style>
-</head>
-<body>
-    <h2>Integrantes</h2>
-    <p>
-        Gustavo da Silva Santos             RA: 11202131428<br>
-        Henrique Vicente Ferraro Oliveira   RA: 11201721650<br>
-        Igor Santana Arruda                 RA: 11201722737<br>
-    </p>
-    <hr />
-    <!---------------------------------------->
-    <!----------Cenário de aplicação---------->
-    <!---------------------------------------->
-    
-    <h1>Contexto e Cenários de Aplicação</h1>
+    <link rel="stylesheet" href="style.css">
 
-    <h2>Objetivo do Sistema</h2>
-    <p>
-        O objetivo principal deste sistema é implementar um mecanismo de autenticação biométrica para controle de acesso físico e lógico, utilizando reconhecimento facial, em áreas restritas e na intranet de uma empresa. O sistema visa:
-    </p>
+</head>
+<header>
+    <h1>Projeto - Visão Computacional</h1>
+    <img src="logo.png" width="100" height="100" class="imagem-canto-superior-direito">
+  </header>
+<body>
+    <div class="fora">
+        <div class="corpo">
+            <h2>Integrantes</h2>
+            <p>
+                Gustavo da Silva Santos             RA: 11202131428<br>
+                Henrique Vicente Ferraro Oliveira   RA: 11201721650<br>
+                Igor Santana Arruda                 RA: 11201722737<br>
+            </p>
+            <hr />
+            <!---------------------------------------->
+            <!----------Cenário de aplicação---------->
+            <!---------------------------------------->
+            
+            <h2>Contexto e Cenários de Aplicação</h2>
+    
+    <h2>Contexto</h2>
     <ul>
-        <li>Aumentar a segurança: Substituir métodos tradicionais de autenticação, como senhas e cartões de acesso, por um método mais confiável e seguro, reduzindo o risco de acessos não autorizados.</li>
-        <li>Melhorar a praticidade: Proporcionar uma experiência de acesso mais rápida e conveniente para os funcionários autorizados, eliminando a necessidade de lembrar senhas ou portar cartões.</li>
-        <li>Agilizar o gerenciamento de acessos: Facilitar a administração de acessos, permitindo que os administradores concedam ou revoguem permissões de forma rápida e centralizada.</li>
+        <li><strong>Objetivo do Projeto:</strong> O projeto visa utilizar tecnologia de visão computacional e reconhecimento facial para monitorar o humor 
+            dos alunos em tempo real. O objetivo é registrar a presença, avaliar o bem-estar emocional dos alunos e adaptar a experiência educacional com 
+            base nas suas necessidades emocionais. Isso permitirá ao professor entender melhor a dinâmica da aula e ajustar suas abordagens pedagógicas para 
+            melhorar o engajamento e a satisfação dos alunos.</li>
+        <li><strong>Tecnologia Utilizada:</strong>
+            <ul>
+                <li><strong>Reconhecimento Facial:</strong> Para identificar os alunos e registrar sua presença.</li>
+                <li><strong>Análise de Emoções:</strong> Para determinar o humor dos alunos com base em expressões faciais.</li>
+                <li><strong>Mecanismo de Geração de Relatórios:</strong> Para compilar e apresentar dados sobre o humor dos alunos ao professor.</li>
+                <li><strong>Sistema de Áudio:</strong> Para tocar músicas específicas com base no humor detectado.</li>
+            </ul>
+        </li>
     </ul>
 
-    <h2>Ações do Sistema</h2>
-    <p>
-        O sistema funcionará da seguinte maneira:
-    </p>
-    <ol>
-        <li>Captura de imagem facial: Uma câmera capturará a imagem facial do usuário em sua aproximação da área restrita ou ao tentar acessar a intranet.</li>
-        <li>Reconhecimento facial: A imagem capturada será comparada com um banco de dados de imagens faciais dos funcionários autorizados.</li>
-        <li>Autenticação: Se a correspondência for bem-sucedida, o usuário será autenticado e liberado para entrar na área restrita ou acessar a intranet.</li>
-        <li>Registro de acesso: O sistema registrará cada tentativa de acesso, incluindo data, hora, nome do usuário e resultado da autenticação.</li>
-    </ol>
-
-    <h2>Interatividade do Usuário</h2>
-    <p>
-        O sistema proporcionará uma interatividade simples e intuitiva para os usuários:
-    </p>
+    <h2>Cenários de Aplicação</h2>
     <ul>
-        <li>Áreas restritas: Ao se aproximar da área restrita, o usuário se posicionará em frente à câmera e aguardará a autenticação. Uma luz verde ou vermelha indicará se o acesso foi liberado ou negado.</li>
-        <li>Intranet: Ao tentar acessar a intranet, o usuário digitará seu nome de usuário e, em seguida, será solicitado a olhar para a câmera para autenticação facial.</li>
+        <li><strong>Entrada na Sala de Aula:</strong>
+            <ul>
+                <li><strong>Cenário:</strong> Um aluno entra na sala e é recebido por uma câmera posicionada na entrada. A câmera captura a imagem do rosto do aluno e o sistema realiza o reconhecimento facial para registrar a presença.</li>
+                <li><strong>Processo:</strong> O sistema analisa a expressão facial do aluno para determinar seu humor atual. Se o aluno parecer triste, o sistema pode tocar uma música alegre para melhorar seu estado emocional.</li>
+            </ul>
+        </li>
+        <li><strong>Durante a Aula:</strong>
+            <ul>
+                <li><strong>Cenário:</strong> O professor pode monitorar em tempo real os níveis de humor dos alunos. Se muitos alunos parecerem desinteressados ou tristes, o professor pode ajustar a abordagem da aula ou fazer uma pausa para uma atividade mais interativa.</li>
+                <li><strong>Processo:</strong> O sistema pode coletar dados sobre o humor dos alunos em intervalos regulares e gerar alertas para o professor se houver uma mudança significativa no estado emocional da turma.</li>
+            </ul>
+        </li>
+        <li><strong>Saída da Sala de Aula:</strong>
+            <ul>
+                <li><strong>Cenário:</strong> Ao final da aula, os alunos passam novamente pela câmera para registrar a saída. O sistema realiza uma nova análise do humor para comparar com o humor registrado no início da aula.</li>
+                <li><strong>Processo:</strong> O sistema gera um relatório detalhado mostrando o humor inicial e final dos alunos, destacando quaisquer mudanças significativas. Esse relatório é enviado ao professor para avaliação.</li>
+            </ul>
+        </li>
+        <li><strong>Relatórios e Feedback:</strong>
+            <ul>
+                <li><strong>Cenário:</strong> O professor recebe relatórios periódicos sobre o humor dos alunos. Estes relatórios incluem gráficos e análises das variações de humor ao longo do tempo.</li>
+                <li><strong>Processo:</strong> O professor pode usar essas informações para entender melhor a eficácia das suas aulas e ajustar o planejamento de acordo com as necessidades emocionais dos alunos.</li>
+            </ul>
+        </li>
     </ul>
 
     <h2>Considerações Adicionais</h2>
     <ul>
-        <li>Iluminação: O sistema levará em consideração as condições de iluminação para garantir a precisão do reconhecimento facial.</li>
-        <li>Segurança de dados: As imagens faciais dos funcionários serão armazenadas de forma segura e criptografada, seguindo as melhores práticas de segurança da informação.</li>
-        <li>Privacidade: A coleta e o armazenamento de imagens faciais serão realizados em estrita conformidade com as leis e regulamentações de privacidade de dados.</li>
-        <li>Treinamento do sistema: O sistema será treinado com um conjunto de imagens faciais dos funcionários autorizados para garantir a alta precisão do reconhecimento.</li>
-        <li>Monitoramento e manutenção: O sistema será monitorado periodicamente para garantir seu bom funcionamento e atualizado com as últimas tecnologias de reconhecimento facial.</li>
+        <li><strong>Privacidade e Ética:</strong> Certifique-se de que o projeto respeite a privacidade dos alunos e obtenha o consentimento necessário para o uso de suas imagens e dados emocionais.</li>
+        <li><strong>Precisão da Análise de Emoções:</strong> A precisão do sistema de análise de emoções pode variar. É importante testar e ajustar o sistema para minimizar erros e garantir que as intervenções baseadas no humor sejam apropriadas.</li>
+        <li><strong>Feedback dos Alunos e Professores:</strong> Inclua um mecanismo para obter feedback dos usuários (alunos e professores) para avaliar a eficácia do sistema e realizar melhorias contínuas.</li>
     </ul>
-    <!-------------------------------------------------->
-    <!----------Modelagem Funcional de Sistema---------->
-    <!-------------------------------------------------->
-    <hr />
-    <h1>Modelagem funcional do sistema - Diagrama de Fluxo</h1>
-    <svg width="800" height="700">
-        <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" />
-            </marker>
-        </defs>
-    
-        <rect id="rect1" class="rect" x="100" y="50" width="200" height="50" />
-        <text x="200" y="80" text-anchor="middle">Funcionário se aproxima</text>
-    
-        <rect id="rect2" class="rect highlight" x="100" y="150" width="200" height="50" />
-        <text x="200" y="180" text-anchor="middle">Captura de Imagem Facial</text>
-    
-        <rect id="rect3" class="rect highlight" x="100" y="250" width="200" height="50" />
-        <text x="200" y="280" text-anchor="middle">Reconhecimento Facial</text>
-    
-        <rect id="rect4" class="rect" x="50" y="350" width="300" height="50" />
-        <text x="200" y="380" text-anchor="middle">Houve Correspondência?</text>
-    
-        <rect id="rect5" class="rect highlight" x="100" y="450" width="80" height="50" />
-        <text x="140" y="480" text-anchor="middle">Sim</text>
-    
-        <rect id="rect6" class="rect highlight" x="100" y="550" width="200" height="50" />
-        <text x="200" y="580" text-anchor="middle">Autenticação</text>
-    
-        <rect id="rect7" class="rect" x="100" y="650" width="200" height="50" />
-        <text x="200" y="680" text-anchor="middle">Realizado a liberação</text>
-    
-        <rect id="rect8" class="rect highlight" x="250" y="450" width="80" height="50" />
-        <text x="290" y="480" text-anchor="middle">Não</text>
-    
-        <path class="arrow" d="M200 100 V130" />
-        <path class="arrow" d="M200 200 V230" />
-        <path class="arrow" d="M200 300 V330" />
-        <path class="arrow" d="M140 500 V530" />
-        <path class="arrow" d="M200 600 V630" />
-        <path class="arrow" d="M200 400 H140 V430" />
-        <path class="arrow" d="M200 400 H290 V430" />
-        <path class="arrow" d="M360 480 V280 H320" />  
-        <line x1="330" y1="480" x2="360" y2="480" stroke="black" stroke-width="2" />
-    </svg>
-    <h2>Explicação do Diagrama de Fluxo</h2>
-    <h3>Fluxo de Dados:</h3>
-    <p>1. Funcionário se aproxima da área restrita ou tenta acessar a intranet.<br>
-    Fluxo: Solicitação de Acesso → Captura de Imagem Facial</p>
-    
-    <p>2.Captura de Imagem Facial:<br>
-    Captura a imagem facial do Funcionário.<br>
-    Fluxo: Imagem Facial Capturada → Reconhecimento Facial</p>
-    
-    
-    <p>3. Reconhecimento facial ompara a imagem capturada com o Banco de Dados de Imagens Faciais.<br>
-    Se houver correspondência:<br>
-    Fluxo: Correspondência Encontrada → Autenticação<br>
-    Se não houver correspondência:<br>
-    Fluxo: Reconhecimento facial</p>
-    
-    <p>4.Autenticação:<br>
-    Se autenticado, libera o acesso ao Funcionário.<br>
-    Fluxo: Acesso Liberado → Registro de Acesso</p>
-    
-    <p>5.Registro de Acesso:<br>
-    Registra a tentativa de acesso, incluindo data, hora, nome do usuário e resultado.<br>
-    Fluxo: Dados do Acesso → Armazenamento no Registro de Acesso</p>
+
+
+
+
+
+
+
+
+            <!-------------------------------------------------->
+            <!----------Modelagem Funcional de Sistema---------->
+            <!-------------------------------------------------->
+            <hr />
+            <h2>Modelagem funcional do sistema - Diagrama de Fluxo</h2>
+            <img src="fluxograma.png" width="" height="">
+
+
+
+
+
+
+
+
+
+
+            <h2>Explicação do Diagrama de Fluxo</h2>
+            <div class="step">
+                <h3>1. Início</h3>
+            </div>
+            
+            <div class="step">
+                <h3>2. Aluno Entra na Sala</h3>
+                <ul>
+                    <li>Ação: Captura da imagem do rosto do aluno pela câmera.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>3. Reconhecimento Facial</h3>
+                <ul>
+                    <li>Decisão: O sistema identifica o aluno?</li>
+                    <li>Sim: Prosseguir para o próximo passo.</li>
+                    <li>Não: Solicitar ao aluno para tentar novamente.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4. Registro de Presença</h3>
+                <ul>
+                    <li>Ação: Sistema registra a presença do aluno.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>5. Análise de Emoções</h3>
+                <ul>
+                    <li>Ação: Sistema analisa a expressão facial do aluno para determinar o humor.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>6. Decisão de Humor</h3>
+                <ul>
+                    <li>Decisão: O aluno está triste?</li>
+                    <li>Sim: Tocar uma música alegre para melhorar o estado emocional do aluno.</li>
+                    <li>Não: Não tocar música ou tocar música neutra.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>7. Saída da Sala</h3>
+                <ul>
+                    <li>Ação: Captura da imagem do rosto do aluno na saída.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>8. Reanálise do Humor</h3>
+                <ul>
+                    <li>Ação: Sistema realiza uma nova análise do humor do aluno na saída.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>9. Geração de Relatório</h3>
+                <ul>
+                    <li>Ação: O sistema gera um relatório com o humor inicial e final dos alunos.</li>
+                    <li>Decisão: O humor mudou significativamente?</li>
+                    <li>Sim: Destacar as mudanças significativas no relatório.</li>
+                    <li>Não: Relatar o humor como está.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>10. Envio de Relatório ao Professor</h3>
+                <ul>
+                    <li>Ação: Envio do relatório detalhado para o professor.</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>11. Fim</h3>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
