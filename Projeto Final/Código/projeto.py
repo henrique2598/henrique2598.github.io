@@ -1,60 +1,72 @@
-#-----------------------------
-#-        IMPORTAÇÕES        -
-#-----------------------------
+#-------------------
+#-   Importações   -
+#-------------------
 import numpy as np
 import cv2
 from keras.utils import img_to_array
+from keras.models import model_from_json
 import json
 from datetime import datetime
 import pandas as pd
 
+#---------------------------
+#-   Definição dos Paths   -
+#---------------------------
+Camera_Index = 0
+Path_CascadeClassifier = "Assets/haarcascade_frontalface_default.xml"
+Path_TelaInicial = "Assets/Background-Inicial.png"
+Path_TelaCadastro = "Assets/Background-Cadastro.png"
+Path_TelaEncerramento = "Assets/Background-Final.png"
+Path_JsonClassDetails = "Assets/class_details.json"
+Path_FacialModel = "Assets/facial_expression_model_structure.json"
+Path_FacialWeights = "Assets/facial_expression_model_weights.h5"
 
 
 #-----------------------------
 #-   opencv initialization   -
 #-----------------------------
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-cap = cv2.VideoCapture(0)
+face_cascade = cv2.CascadeClassifier(Path_CascadeClassifier)
+cap = cv2.VideoCapture(Camera_Index)
 
-
-#--------------------------------
-#-   interface initialization   -
-#--------------------------------
-#Carrega o backgroud de cada etapa
-TelaInicial = cv2.imread("Assets/Background-Inicial.png")
-TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
-TelaEncerramento = cv2.imread("Assets/Background-Final.png")
-
-# Convert JSON String to Python
-json_file_path = "Assets/class_details.json"
-
-with open(json_file_path, "r", encoding="utf-8") as j:
-     class_details = json.loads(j.read())
-
-# Print values using keys
-cv2.putText(TelaInicial, class_details['Disciplina'], (190, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-cv2.putText(TelaInicial, class_details['Turma'], (140, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-cv2.putText(TelaInicial, class_details['Professor'], (190, 250), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-
-# Define a janela de exibição das imagens, com tamanho automático
-winName = 'Chamada Virtual'
-cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
-
-# Posiciona a janela na metade direita do (meu) monitor
-cv2.moveWindow(winName, 100, 100)
 
 
 # Create the pandas DataFrame
 df_ListaDePresenca = pd.DataFrame(columns=['Nome do Aluno', 'Horário Entrada', 'Emoção Entrada', 'Horário Saída', 'Emoção Saída'])
 
 
+#--------------------------------
+#-   interface initialization   -
+#--------------------------------
+#Carrega o backgroud de cada etapa
+TelaInicial = cv2.imread(Path_TelaInicial)
+TelaCadastro = cv2.imread(Path_TelaCadastro)
+TelaEncerramento = cv2.imread(Path_TelaEncerramento)
+
+# Convert JSON String to Python
+with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
+     class_details = json.loads(j.read())
+
+# Print values using keys
+cv2.putText(TelaInicial, class_details['Professor'], (120, 105), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
+cv2.putText(TelaInicial, class_details['Disciplina'], (120, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
+cv2.putText(TelaInicial, class_details['Turma'], (90, 175), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
+
+# Define a janela de exibição das imagens, com tamanho automático
+winName = 'Chamada Virtual - Grupo 6'
+cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
+
+# Posiciona a janela na metade direita do (meu) monitor
+cv2.moveWindow(winName, 100, 100)
+
+
+
+
 
 #-----------------------------------------------
 #-  face expression recognizer initialization  -
 #-----------------------------------------------
-from keras.models import model_from_json
-model = model_from_json(open("facial_expression_model_structure.json", "r").read())
-model.load_weights('facial_expression_model_weights.h5') #load weights
+model = model_from_json(open(Path_FacialModel, "r").read())
+model.load_weights(Path_FacialWeights)
 emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
 
 
@@ -142,11 +154,11 @@ while(DandoAula==True):
 	while (Periodo==0):
 		if cv2.waitKey(1) & 0xFF == ord('e'):
 			Periodo = 1
-			TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
+			TelaCadastro = cv2.imread(Path_TelaCadastro)
 			cv2.putText(TelaCadastro, "Entrada", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		elif cv2.waitKey(1) & 0xFF == ord('s'):
 			Periodo = 2
-			TelaCadastro = cv2.imread("Assets/Background-Cadastro.png")
+			TelaCadastro = cv2.imread(Path_TelaCadastro)
 			cv2.putText(TelaCadastro, "Saida", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
 	# Habilita a etapa de cadastro e inicializa as variáveis
