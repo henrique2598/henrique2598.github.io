@@ -5,12 +5,14 @@ body {
     overflow: hidden;
 }
 
-.imagem-canto-superior-direito {
+.imagem-canto-superior-esquerdo {
     position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px; 
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: 100px;
 }
+
 body {
     font-family: 'Times New Roman', Times, serif;
     margin-left: 400px; /* Margem em todos os cantos */
