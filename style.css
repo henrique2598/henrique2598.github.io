@@ -8,11 +8,9 @@ body {
 .imagem-canto-superior-esquerdo {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 0px;
     width: 100px;
     height: 100px;
-    margin-left: 400px; /* Margem em todos os cantos */
-    margin-right: 400px; /* Margem em todos os cantos */
 }
 
 body {
