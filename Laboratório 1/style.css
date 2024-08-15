@@ -8,13 +8,13 @@ body {
 .imagem-canto-superior-direito {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     margin: 10px; 
 }
 body {
     font-family: 'Times New Roman', Times, serif;
-    margin-left: 400px;
-    margin-right: 400px; 
+    margin-left: 20%;
+    margin-right: 20%; 
     background: repeating-linear-gradient(20deg, #090131, #02005e 20px, #012a4d 40px); /* Gradiente linear repetido */
 }
 
