@@ -30,7 +30,7 @@
     <h2>Contexto</h2>
     <ul>
         <li><strong>Objetivo do Projeto:</strong> O projeto visa utilizar tecnologia de visão computacional e reconhecimento facial para monitorar o humor 
-            dos alunos em tempo real. O objetivo é registrar a presença, avaliar o bem-estar emocional dos alunos e adaptar a experiência educacional com 
+            dos alunos antes e após a aula. O objetivo é registrar a presença, avaliar o bem-estar emocional dos alunos e adaptar a experiência educacional com 
             base nas suas necessidades emocionais. Isso permitirá ao professor entender melhor a dinâmica da aula e ajustar suas abordagens pedagógicas para 
             melhorar o engajamento e a satisfação dos alunos.</li>
         <li><strong>Tecnologia Utilizada:</strong>
@@ -38,7 +38,6 @@
                 <li><strong>Reconhecimento Facial:</strong> Para identificar os alunos e registrar sua presença.</li>
                 <li><strong>Análise de Emoções:</strong> Para determinar o humor dos alunos com base em expressões faciais.</li>
                 <li><strong>Mecanismo de Geração de Relatórios:</strong> Para compilar e apresentar dados sobre o humor dos alunos ao professor.</li>
-                <li><strong>Sistema de Áudio:</strong> Para tocar músicas específicas com base no humor detectado.</li>
             </ul>
         </li>
     </ul>
@@ -48,24 +47,17 @@
         <li><strong>Entrada na Sala de Aula:</strong>
             <ul>
                 <li><strong>Cenário:</strong> Um aluno entra na sala e é recebido por uma câmera posicionada na entrada. A câmera captura a imagem do rosto do aluno e o sistema realiza o reconhecimento facial para registrar a presença.</li>
-                <li><strong>Processo:</strong> O sistema analisa a expressão facial do aluno para determinar seu humor atual. Se o aluno parecer triste, o sistema pode tocar uma música alegre para melhorar seu estado emocional.</li>
+                <li><strong>Processo:</strong> O sistema analisa a expressão facial do aluno para determinar seu humor atual. Se o aluno parecer triste, o sistema irá mostrar uma mensagem motivacional para melhorar seu estado emocional.</li>
             </ul>
-        </li>
-        <li><strong>Durante a Aula:</strong>
-            <ul>
-                <li><strong>Cenário:</strong> O professor pode monitorar em tempo real os níveis de humor dos alunos. Se muitos alunos parecerem desinteressados ou tristes, o professor pode ajustar a abordagem da aula ou fazer uma pausa para uma atividade mais interativa.</li>
-                <li><strong>Processo:</strong> O sistema pode coletar dados sobre o humor dos alunos em intervalos regulares e gerar alertas para o professor se houver uma mudança significativa no estado emocional da turma.</li>
-            </ul>
-        </li>
         <li><strong>Saída da Sala de Aula:</strong>
             <ul>
                 <li><strong>Cenário:</strong> Ao final da aula, os alunos passam novamente pela câmera para registrar a saída. O sistema realiza uma nova análise do humor para comparar com o humor registrado no início da aula.</li>
-                <li><strong>Processo:</strong> O sistema gera um relatório detalhado mostrando o humor inicial e final dos alunos, destacando quaisquer mudanças significativas. Esse relatório é enviado ao professor para avaliação.</li>
+                <li><strong>Processo:</strong> O sistema gera um relatório mostrando o humor inicial e final dos alunos, destacando mudanças significativas. Esse relatório é disponibilizado ao professor na máquina local para avaliação.</li>
             </ul>
         </li>
         <li><strong>Relatórios e Feedback:</strong>
             <ul>
-                <li><strong>Cenário:</strong> O professor recebe relatórios periódicos sobre o humor dos alunos. Estes relatórios incluem gráficos e análises das variações de humor ao longo do tempo.</li>
+                <li><strong>Cenário:</strong> O professor visualiza o relatório sobre o humor dos alunos. Este relatório inclue análises das variações de humor no início e fim da aula.</li>
                 <li><strong>Processo:</strong> O professor pode usar essas informações para entender melhor a eficácia das suas aulas e ajustar o planejamento de acordo com as necessidades emocionais dos alunos.</li>
             </ul>
         </li>
@@ -75,15 +67,7 @@
     <ul>
         <li><strong>Privacidade e Ética:</strong> Certifique-se de que o projeto respeite a privacidade dos alunos e obtenha o consentimento necessário para o uso de suas imagens e dados emocionais.</li>
         <li><strong>Precisão da Análise de Emoções:</strong> A precisão do sistema de análise de emoções pode variar. É importante testar e ajustar o sistema para minimizar erros e garantir que as intervenções baseadas no humor sejam apropriadas.</li>
-        <li><strong>Feedback dos Alunos e Professores:</strong> Inclua um mecanismo para obter feedback dos usuários (alunos e professores) para avaliar a eficácia do sistema e realizar melhorias contínuas.</li>
     </ul>
-
-
-
-
-
-
-
 
             <!-------------------------------------------------->
             <!----------Modelagem Funcional de Sistema---------->
@@ -91,14 +75,6 @@
             <hr />
             <h2>Modelagem funcional do sistema - Diagrama de Fluxo</h2>
             <img src="fluxograma.png" width="" height="">
-
-
-
-
-
-
-
-
 
 
             <h2>Explicação do Diagrama de Fluxo</h2>
@@ -140,8 +116,8 @@
                 <h3>6. Decisão de Humor</h3>
                 <ul>
                     <li>Decisão: O aluno está triste?</li>
-                    <li>Sim: Tocar uma música alegre para melhorar o estado emocional do aluno.</li>
-                    <li>Não: Não tocar música ou tocar música neutra.</li>
+                    <li>Sim: Mostrar uma mensagem motivacional para melhorar o estado emocional do aluno.</li>
+                    <li>Não: Não apresenta mensagem.</li>
                 </ul>
             </div>
             
@@ -163,22 +139,21 @@
                 <h3>9. Geração de Relatório</h3>
                 <ul>
                     <li>Ação: O sistema gera um relatório com o humor inicial e final dos alunos.</li>
-                    <li>Decisão: O humor mudou significativamente?</li>
-                    <li>Sim: Destacar as mudanças significativas no relatório.</li>
-                    <li>Não: Relatar o humor como está.</li>
                 </ul>
             </div>
             
             <div class="step">
-                <h3>10. Envio de Relatório ao Professor</h3>
+                <h3>10. Disponibilização do Relatório ao Professor</h3>
                 <ul>
-                    <li>Ação: Envio do relatório detalhado para o professor.</li>
+                    <li>Ação: Disponibilização do relatório para o professor.</li>
                 </ul>
             </div>
             
             <div class="step">
                 <h3>11. Fim</h3>
             </div>
+            <hr>
+            <a href="../index.html">Voltar para a Página Inicial</a>
         </div>
     </div>
 </body>
