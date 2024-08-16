@@ -242,8 +242,9 @@ def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Stu
 #-   Função para gerar o relatório do professor   -
 #--------------------------------------------------
 def GerarRelatorio(df_ListaDePresenca):
-	# print dataframe.
-	print(df_ListaDePresenca)
+	nome_arquivo = f"Relatorio_Turma_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
+	df_ListaDePresenca.to_excel(nome_arquivo, index=False)
+	print(f"Relatório gerado com sucesso: {nome_arquivo}")
 
 
 #----------------------------
