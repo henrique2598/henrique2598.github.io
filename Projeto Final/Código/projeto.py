@@ -9,73 +9,94 @@ import json
 from datetime import datetime
 import pandas as pd
 
-#---------------------------
-#-   Definição dos Paths   -
-#---------------------------
+
+#--------------------------------------
+#-   Definição dos paths e variáveis  -
+#--------------------------------------
 Camera_Index = 0
+winName = 'Chamada Virtual - Grupo 6'
 Path_CascadeClassifier = "Assets/haarcascade_frontalface_default.xml"
-Path_TelaInicial = "Assets/Background-Inicial.png"
 Path_TelaCadastro = "Assets/Background-Cadastro.png"
+Path_TelaInicial = "Assets/Background-Inicial.png"
+Path_TelaCaptura = "Assets/Background-Captura.png"
 Path_TelaEncerramento = "Assets/Background-Final.png"
 Path_JsonClassDetails = "Assets/class_details.json"
 Path_FacialModel = "Assets/facial_expression_model_structure.json"
 Path_FacialWeights = "Assets/facial_expression_model_weights.h5"
 
 
-#-----------------------------
-#-   opencv initialization   -
-#-----------------------------
+#----------------------
+#-   Inicializações   -
+#----------------------
+# Definição do classificador para detecção dos rostos
 face_cascade = cv2.CascadeClassifier(Path_CascadeClassifier)
+
+# Definiçção do modelo utilizado para reconhecimento da expressão facial
+model = model_from_json(open(Path_FacialModel, "r").read())
+
+# Definição dos pesos do modelo utilizado para reconhecimento da expressão facial
+model.load_weights(Path_FacialWeights)
+
+# Definição das imagens suportadas
+emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
+
+# Definição da entrada de vídeo
 cap = cv2.VideoCapture(Camera_Index)
 
-
-
-# Create the pandas DataFrame
+# Criação do DataFrame Pandas
 df_ListaDePresenca = pd.DataFrame(columns=['Nome do Aluno', 'Horário Entrada', 'Emoção Entrada', 'Horário Saída', 'Emoção Saída'])
 
-
-#--------------------------------
-#-   interface initialization   -
-#--------------------------------
-#Carrega o backgroud de cada etapa
-TelaInicial = cv2.imread(Path_TelaInicial)
+# Carrega o backgroud de cada etapa
 TelaCadastro = cv2.imread(Path_TelaCadastro)
+TelaInicial = cv2.imread(Path_TelaInicial)
+TelaCaptura = cv2.imread(Path_TelaCaptura)
 TelaEncerramento = cv2.imread(Path_TelaEncerramento)
 
-# Convert JSON String to Python
+# Define a janela de exibição das imagens
+cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
+
+# Posiciona a janela na posição (100, 100)
+cv2.moveWindow(winName, 100, 100)
+
+# Leitura do json com as informações da turma
 with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
-# Print values using keys
-cv2.putText(TelaInicial, class_details['Professor'], (120, 105), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
-cv2.putText(TelaInicial, class_details['Disciplina'], (120, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
-cv2.putText(TelaInicial, class_details['Turma'], (90, 175), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
 
-# Define a janela de exibição das imagens, com tamanho automático
-winName = 'Chamada Virtual - Grupo 6'
-cv2.namedWindow(winName, cv2.WINDOW_FULLSCREEN)
+#--------------------------------------------
+#-   Função para cadastro de novos alunos   -
+#--------------------------------------------
+def CadastraAluno():
+	# Exibe o Loop para cadastro dos alunos
+	Capturando = True
+	while(Capturando==True):
+		# Lê a webcam
+		ret, cam = cap.read()
+		
+		# Atualiza a tela de cadastro
+		img = cv2.hconcat([cam, TelaCadastro])
 
-# Posiciona a janela na metade direita do (meu) monitor
-cv2.moveWindow(winName, 100, 100)
+		# Exibe a tela
+		cv2.imshow(winName,img)
 
-
-
-
-
-#-----------------------------------------------
-#-  face expression recognizer initialization  -
-#-----------------------------------------------
-model = model_from_json(open(Path_FacialModel, "r").read())
-model.load_weights(Path_FacialWeights)
-emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
+		# Verifica se o cadastro foi concluído
+		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
+			Capturando = False
 
 
 
+#------------------------------------------
+#-   Função para identificação do aluno   -
+#------------------------------------------
 def DetectaAluno(detected_face):
 	pass
 
 
 
+
+#----------------------------------------------------
+#-   Função para identificação da emoção do aluno   -
+#----------------------------------------------------
 def DetectaEmocao(detected_face):
 	#detecta a emoção
 	img_pixels = img_to_array(detected_face)
@@ -93,10 +114,18 @@ def DetectaEmocao(detected_face):
 	return emotion
 
 
+
+#-------------------------------------------------------
+#-   Função para gerar uma resposta para cada emoção   -
+#-------------------------------------------------------
 def GerarCondicionalDeEmocao(emotion):
 	pass
 
 
+
+#-------------------------------------------------------------------------------
+#-   Função para gravar as informações de presença e humor no banco de dados   -
+#-------------------------------------------------------------------------------
 def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Students):
 	# Grava a entrada do aluno
 	if (periodo == 1):
@@ -126,47 +155,58 @@ def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Stu
 		# O aluno não marcou a entrada
 		else:
 			pass
-		
-
-
 	return df_ListaDePresenca, Total_Students
 
+
+#--------------------------------------------------
+#-   Função para gerar o relatório do professor   -
+#--------------------------------------------------
 def GerarRelatorio(df_ListaDePresenca):
 	# print dataframe.
 	print(df_ListaDePresenca)
-	
+
+
 #----------------------------
 #-      Loop Principal      -
 #----------------------------
+# Adiciona as informações da turma na tela inicial
+cv2.putText(TelaInicial, class_details['Professor'], (120, 105), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
+cv2.putText(TelaInicial, class_details['Disciplina'], (120, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
+cv2.putText(TelaInicial, class_details['Turma'], (90, 175), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 1)
 
-
-# Repetição - Dia de Aula
+# Variáveis de estado do programa
 Periodo = 0
 DandoAula=True
-Cadastrando=False
+Capturando=False
 
-
+# Loop principal
 while(DandoAula==True):
 	#Exibe tela inicial com informações da turma
 	cv2.imshow(winName, TelaInicial)
 	
-	# Decide se é entrada ou saída dos alunos
+	# Decide se é cadastro, entrada ou saída dos alunos
 	while (Periodo==0):
-		if cv2.waitKey(1) & 0xFF == ord('e'):
+		# Cadastro de alunos
+		if cv2.waitKey(1) & 0xFF == ord('c'):
+			CadastraAluno()
+			cv2.imshow(winName, TelaInicial)
+		# Entrada de alunos
+		elif cv2.waitKey(1) & 0xFF == ord('e'):
 			Periodo = 1
-			TelaCadastro = cv2.imread(Path_TelaCadastro)
+			TelaCaptura = cv2.imread(Path_TelaCaptura)
 			cv2.putText(TelaCadastro, "Entrada", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		# Saída de alunos
 		elif cv2.waitKey(1) & 0xFF == ord('s'):
 			Periodo = 2
-			TelaCadastro = cv2.imread(Path_TelaCadastro)
+			TelaCaptura = cv2.imread(Path_TelaCaptura)
 			cv2.putText(TelaCadastro, "Saida", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
-	# Habilita a etapa de cadastro e inicializa as variáveis
-	Cadastrando = True
+	# Habilita a etapa de cadastro e inicializa a variável contadora de alunos registrados
+	Capturando = True
 	Total_Students = 0
 
 	# Exibe o Loop para registro dos alunos
-	while(Cadastrando==True):
+	while(Capturando==True):
 		# Lê a webcam
 		ret, cam = cap.read()
 		gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
@@ -199,36 +239,37 @@ while(DandoAula==True):
 				Student_Name = 'Aluno1'
 				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
 
-
 		# Atualiza a tela de cadastro
-		img = cv2.hconcat([cam, TelaCadastro])
+		img = cv2.hconcat([cam, TelaCaptura])
 
-		#write total students text above rectangle
+		# Adiciona as informações atualizadas na tela
 		cv2.putText(img, str(Total_Students), (920, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-		#write student text above rectangle
 		cv2.putText(img, str(Student_Name), (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-		#write emotion text above rectangle
 		cv2.putText(img, str(Student_emotion), (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+
+		# Exibe a tela
 		cv2.imshow(winName,img)
 
 		# Verifica se o cadastro foi concluído
 		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
-			Cadastrando = False
+			Capturando = False
 	
+
 	# Decide o fluxo com base no período
 	if Periodo == 1:
 		# Finalizou a entrada - Volta para tela inicial   
 		Periodo = 0
 	elif Periodo == 2:
-		# Finalizou a saída - gerar relatório e encerrar o programa
+		# Finalizou a saída - gerar relatório
 		GerarRelatorio(df_ListaDePresenca)
 		# Atualiza a tela de encerramento
 		cv2.imshow(winName,TelaEncerramento)
+		#  Encerrar o programa
 		while (DandoAula==True):
 			if cv2.waitKey(1) & 0xFF == ord('x'):
 				DandoAula = False
 
 
-#kill open cv things		
+# Fechas a câmera e janela aberta		
 cap.release()
 cv2.destroyAllWindows()
