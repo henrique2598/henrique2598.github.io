@@ -20,6 +20,7 @@ Path_CascadeClassifier = "Assets/haarcascade_frontalface_default.xml"
 Path_TelaCadastro = "Assets/Background-Cadastro.png"
 Path_TelaInicial = "Assets/Background-Inicial.png"
 Path_TelaCaptura = "Assets/Background-Captura.png"
+Path_TelaCondicional = "Assets/Background-Condicional.png"
 Path_TelaEncerramento = "Assets/Background-Final.png"
 Path_JsonClassDetails = "Assets/class_details.json"
 Path_FacialModel = "Assets/facial_expression_model_structure.json"
@@ -51,6 +52,7 @@ df_ListaDePresenca = pd.DataFrame(columns=['Nome do Aluno', 'Horário Entrada', 
 TelaCadastro = cv2.imread(Path_TelaCadastro)
 TelaInicial = cv2.imread(Path_TelaInicial)
 TelaCaptura = cv2.imread(Path_TelaCaptura)
+TelaCondicional = cv2.imread(Path_TelaCondicional)
 TelaEncerramento = cv2.imread(Path_TelaEncerramento)
 
 # Define a janela de exibição das imagens
@@ -189,18 +191,16 @@ def GerarCondicionalDeEmocao(emotion, aluno):
 
 	Condicional = aluno + ", " + ReactionList[random.randint(0, len(ReactionList)-1)]
 	
-	TelaReacao = cv2.imread(Path_TelaEncerramento)
-	cv2.putText(TelaReacao, Condicional, (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+	TelaCondicional = cv2.imread(Path_TelaCondicional)
+	cv2.putText(TelaCondicional, Condicional, (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
 	# Atualiza a tela com a condicional
-	cv2.imshow(winName,TelaReacao)
+	cv2.imshow(winName,TelaCondicional)
 	Reagindo=True
 	#  Encerrar o programa
 	while (Reagindo==True):
-		if cv2.waitKey(1) & 0xFF == ord('x'):
+		if cv2.waitKey(1) & 0xFF == ord('p'):
 			Reagindo = False
-
-	print(Condicional)
 
 
 #-------------------------------------------------------------------------------
