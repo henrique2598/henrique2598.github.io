@@ -8,6 +8,7 @@ from keras.models import model_from_json
 import json
 from datetime import datetime
 import pandas as pd
+import random
 
 
 #--------------------------------------
@@ -63,6 +64,60 @@ with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
 
+#------------------------
+#-   Reações de humor   -
+#------------------------
+Reactions_angry = [
+	"Respire fundo, transforme sua raiva em foco!",
+	"Cada desafio é uma oportunidade para crescer, até a frustração!",
+	"Controle suas emoções e domine seu dia!",
+	"Use essa energia para conquistar seus objetivos!",
+	"O que importa é como você escolhe reagir, não o que aconteceu!"
+	]
+Reactions_disgust = [
+	"Encare o desconforto como um degrau para o sucesso!",
+	"Desafios momentâneos não definem seu dia, siga em frente!",
+	"Transforme o que te incomoda em motivação para vencer!",
+	"Você é mais forte do que qualquer situação desconfortável!",
+	"Foque no que importa: seu crescimento e aprendizado!"
+	]
+Reactions_fear = [
+	"Coragem não é a ausência de medo, mas a decisão de seguir em frente!",
+	"Transforme o medo em combustível para sua vitória!",
+	"Cada passo dado com medo é um passo mais perto do sucesso!",
+	"Você é mais corajoso do que imagina; vá em frente!",
+	"Enfrente seus medos, eles são apenas oportunidades disfarçadas!",
+	]
+Reactions_happy = [
+	"Sua alegria é o combustível para um dia incrível!",
+	"Use sua energia positiva para brilhar ainda mais!",
+	"A felicidade de hoje é o começo de grandes conquistas!",
+	"Aproveite seu entusiasmo e transforme-o em aprendizado!",
+	"Seu sorriso é a chave para um dia produtivo e gratificante!"
+	]
+Reactions_sad = [
+	"Cada novo dia é uma nova chance de aprender algo incrível!",
+	"Você é capaz de coisas incríveis, acredite em si mesmo!",
+	"Mesmo os dias difíceis te ajudam a crescer!",
+	"Seu esforço hoje será sua vitória amanhã!",
+	"Nunca subestime o poder de um pequeno passo em frente!"
+	]
+Reactions_surprise = [
+	"A surpresa é a chance de explorar novas possibilidades!",
+	"Aceite o inesperado como uma oportunidade para aprender!",
+	"Deixe a surpresa inspirar sua curiosidade e entusiasmo!",
+	"O inesperado pode abrir portas para grandes descobertas!",
+	"Abrace a surpresa, ela pode levar você a novas aventuras!"
+	]
+Reactions_neutral = [
+	"Cada aula é uma nova chance de descobrir algo incrível!",
+	"Às vezes, o simples ato de começar é o primeiro passo para grandes conquistas.",
+	"Sua atitude positiva pode transformar um dia comum em algo extraordinário!",
+	"Dê o seu melhor hoje; cada pequeno esforço conta!",
+	"Aproveite o dia e faça dele uma oportunidade de crescimento!"
+	]
+
+
 #--------------------------------------------
 #-   Função para cadastro de novos alunos   -
 #--------------------------------------------
@@ -82,7 +137,6 @@ def CadastraAluno():
 		# Verifica se o cadastro foi concluído
 		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
 			Capturando = False
-
 
 
 #------------------------------------------
@@ -114,13 +168,39 @@ def DetectaEmocao(detected_face):
 	return emotion
 
 
-
 #-------------------------------------------------------
 #-   Função para gerar uma resposta para cada emoção   -
 #-------------------------------------------------------
-def GerarCondicionalDeEmocao(emotion):
-	pass
+def GerarCondicionalDeEmocao(emotion, aluno):	
+	if (emotion=='angry'):
+		ReactionList = Reactions_angry
+	elif (emotion=='disgust'):
+		ReactionList = Reactions_disgust
+	elif (emotion=='fear'):
+		ReactionList = Reactions_fear
+	elif (emotion=='happy'):
+		ReactionList = Reactions_happy
+	elif (emotion=='sad'):
+		ReactionList = Reactions_sad
+	elif (emotion=='surprise'):
+		ReactionList = Reactions_surprise
+	else:
+		ReactionList = Reactions_neutral
 
+	Condicional = aluno + ", " + ReactionList[random.randint(0, len(ReactionList)-1)]
+	
+	TelaReacao = cv2.imread(Path_TelaEncerramento)
+	cv2.putText(TelaReacao, Condicional, (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+
+	# Atualiza a tela com a condicional
+	cv2.imshow(winName,TelaReacao)
+	Reagindo=True
+	#  Encerrar o programa
+	while (Reagindo==True):
+		if cv2.waitKey(1) & 0xFF == ord('x'):
+			Reagindo = False
+
+	print(Condicional)
 
 
 #-------------------------------------------------------------------------------
@@ -233,11 +313,11 @@ while(DandoAula==True):
 			if (Student_Name != ""):
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
-				# Reação personalizada de acordo com a emoção
-				GerarCondicionalDeEmocao(Student_emotion)
 				# Grava as informações da turma
 				Student_Name = 'Aluno1'
 				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
+				# Reação personalizada de acordo com a emoção
+				GerarCondicionalDeEmocao(Student_emotion, Student_Name)
 
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCaptura])
