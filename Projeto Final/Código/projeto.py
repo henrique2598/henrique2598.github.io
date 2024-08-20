@@ -25,7 +25,7 @@ Path_TelaEncerramento = "Assets/Background-Final.png"
 Path_JsonClassDetails = "Assets/class_details.json"
 Path_FacialModel = "Assets/facial_expression_model_structure.json"
 Path_FacialWeights = "Assets/facial_expression_model_weights.h5"
-Path_ImagemDosAlunos = "Assets/ImagemDosAlunos/"  # Diretório com imagens dos alunos
+Path_ImagensDosAlunos = "Assets/Alunos Cadastrados/"  # Diretório com imagens dos alunos
 
 #----------------------
 #-   Inicializações   -
@@ -72,7 +72,7 @@ def load_student_encodings():
     known_face_names = []
     
     for student_name in student_names:
-        image_path = f"{Path_StudentImages}/{student_name}.jpg"
+        image_path = f"{Path_ImagensDosAlunos}/{student_name}.jpg"
         student_image = face_recognition.load_image_file(image_path)
         student_face_encoding = face_recognition.face_encodings(student_image)
         
