@@ -344,7 +344,8 @@ while(DandoAula==True):
 			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
 			
 			#Validar se a turma está correta
-			Student_Name = DetectaAluno(detected_face)
+			Student_Name = "Aluno1"
+            #Student_Name = DetectaAluno(detected_face)
 
 			if (Student_Name != ""):
 				# Função que detecta a emoção
