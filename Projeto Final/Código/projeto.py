@@ -9,6 +9,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import random
+from os import listdir
 import face_recognition  # Precisamos adicionar essa parte
 
 
@@ -70,7 +71,7 @@ with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
 
 
 #Definição da variável de nome dos alunos
-student_names = ['henrique']  # Ideal fazermos simulando a lista de chamada
+student_names = [x[:-4] for x in listdir(Path_ImagensDosAlunos) if x.endswith(".png")]
 
 # Função para carregar imagens de alunos e criar codificações
 def get_rostos():
@@ -357,9 +358,12 @@ while(DandoAula==True):
 			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
 			
 			#Validar se a turma está correta
-			Student_Name = DetectaAluno(face_recognition.face_encodings(detected_face_RGB)[0])
+			try:
+				Student_Name = DetectaAluno(face_recognition.face_encodings(detected_face_RGB)[0])
+			except:
+				Student_Name = "Desconhecido"
 
-			if (Student_Name != ""):
+			if (Student_Name != "Desconhecido"):
 				#Validar se o aluno já registrou a presença na entrada
 				if (Student_Name not in df_ListaDePresenca['Nome do Aluno'].values):
 					Student_emotion = DetectaEmocao(detected_face)
