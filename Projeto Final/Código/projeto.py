@@ -11,11 +11,14 @@ import pandas as pd
 import random
 #import face_recognition  # Precisamos adicionar essa parte
 
+
 #--------------------------------------
 #-   Definição dos paths e variáveis  -
 #--------------------------------------
 Camera_Index = 0
 winName = 'Chamada Virtual - Grupo 6'
+Path_Relatorio = "Relatórios/"
+Path_ImagensDosAlunos = "Alunos Cadastrados"  # Diretório com imagens dos alunos
 Path_CascadeClassifier = "Assets/haarcascade_frontalface_default.xml"
 Path_TelaCadastro = "Assets/Background-Cadastro.png"
 Path_TelaInicial = "Assets/Background-Inicial.png"
@@ -25,7 +28,7 @@ Path_TelaEncerramento = "Assets/Background-Final.png"
 Path_JsonClassDetails = "Assets/class_details.json"
 Path_FacialModel = "Assets/facial_expression_model_structure.json"
 Path_FacialWeights = "Assets/facial_expression_model_weights.h5"
-Path_ImagensDosAlunos = "Alunos Cadastrados"  # Diretório com imagens dos alunos
+
 
 #----------------------
 #-   Inicializações   -
@@ -289,7 +292,7 @@ def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Stu
 #--------------------------------------------------
 def GerarRelatorio(df_ListaDePresenca):
 	nome_arquivo = f"Relatorio_Turma_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
-	df_ListaDePresenca.to_excel(nome_arquivo, index=False)
+	df_ListaDePresenca.to_excel(Path_Relatorio+nome_arquivo, index=False)
 
 
 #----------------------------
@@ -359,12 +362,16 @@ while(DandoAula==True):
             #Student_Name = DetectaAluno(detected_face)
 
 			if (Student_Name != ""):
-				# Função que detecta a emoção
-				Student_emotion = DetectaEmocao(detected_face)
-				# Grava as informações da turma
-				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
-				# Reação personalizada de acordo com a emoção
-				GerarCondicionalDeEmocao(cam, Student_emotion, Student_Name)
+				#Validar se o aluno já registrou a presença na entrada
+				if (Student_Name not in df_ListaDePresenca['Nome do Aluno'].values):
+					Student_emotion = DetectaEmocao(detected_face)
+					df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
+					GerarCondicionalDeEmocao(cam, Student_emotion, Student_Name)
+				#Validar se o aluno já registrou a presença na saída
+				elif (Periodo == 2) and (df_ListaDePresenca['Horário Saída'][df_ListaDePresenca.index[df_ListaDePresenca['Nome do Aluno'] == Student_Name].tolist()[0]]==''):
+					Student_emotion = DetectaEmocao(detected_face)
+					df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
+					GerarCondicionalDeEmocao(cam, Student_emotion, Student_Name)
 
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCaptura])
