@@ -326,8 +326,8 @@ while(DandoAula==True):
 		ret, cam = cap.read()
 		gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
 
-		# Detecta os rostos
-		faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+		 # Detecção de rostos
+       		 faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 		
 		# Limpa as variáveis
 		Student_Name = ""
