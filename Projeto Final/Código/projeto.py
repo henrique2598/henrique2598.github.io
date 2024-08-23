@@ -65,6 +65,8 @@ cv2.moveWindow(winName, 100, 100)
 with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
+#Definição da variável de nome dos alunos
+student_names = ['Igor', 'Gustavo', 'Henrique']  # Ideal fazermos simulando a lista de chamada
 
 # Função para carregar imagens de alunos e criar codificações
 def load_student_encodings():
@@ -84,8 +86,6 @@ def load_student_encodings():
 
 known_face_encodings, known_face_names = load_student_encodings()
 
-#Definição da variável de nome dos alunos
-student_names = ['Igor', 'Gustavo', 'Henrique']  # Ideal fazermos simulando a lista de chamada
 #------------------------------------------
 #-   Função para identificação do aluno   -
 #------------------------------------------
