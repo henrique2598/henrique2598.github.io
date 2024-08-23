@@ -352,15 +352,12 @@ while(DandoAula==True):
 			
 			# Recorta o rosto detectado e pré-processa a imagem
 			detected_face = cam[int(y):int(y+h), int(x):int(x+w)] #crop detected face
+			detected_face_RGB = detected_face[:, :, ::-1]
 			detected_face = cv2.cvtColor(detected_face, cv2.COLOR_BGR2GRAY) #transform to gray scale
 			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
 			
 			#Validar se a turma está correta
-			rgb_frame = frame[:, :, ::-1]
-			localizacao_dos_rostos = face_recognition.face_locations(rgb_frame)
-			rosto_desconhecidos = face_recognition.face_encodings(rgb_frame, localizacao_dos_rostos)
-			for (top, right, bottom, left), rosto_desconhecido in zip(localizacao_dos_rostos, rosto_desconhecidos):
-				Student_Name = DetectaAluno(rosto_desconhecido)
+			Student_Name = DetectaAluno(face_recognition.face_encodings(detected_face_RGB)[0])
 
 			if (Student_Name != ""):
 				#Validar se o aluno já registrou a presença na entrada
