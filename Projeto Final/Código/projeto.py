@@ -84,6 +84,8 @@ def load_student_encodings():
 
 known_face_encodings, known_face_names = load_student_encodings()
 
+#Definição da variável de nome dos alunos
+student_names = ['Igor', 'Gustavo', 'Henrique']  # Ideal fazermos simulando a lista de chamada
 #------------------------------------------
 #-   Função para identificação do aluno   -
 #------------------------------------------
