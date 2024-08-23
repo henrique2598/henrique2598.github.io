@@ -10,7 +10,7 @@ from datetime import datetime
 import pandas as pd
 import random
 from os import listdir
-import face_recognition  # Precisamos adicionar essa parte
+import face_recognition
 
 
 #--------------------------------------
@@ -19,7 +19,7 @@ import face_recognition  # Precisamos adicionar essa parte
 Camera_Index = 0
 winName = 'Chamada Virtual - Grupo 6'
 Path_Relatorio = "Relatórios/"
-Path_ImagensDosAlunos = "Alunos Cadastrados"  # Diretório com imagens dos alunos
+Path_ImagensDosAlunos = "Alunos Cadastrados"
 Path_CascadeClassifier = "Assets/haarcascade_frontalface_default.xml"
 Path_TelaCadastro = "Assets/Background-Cadastro.png"
 Path_TelaInicial = "Assets/Background-Inicial.png"
@@ -69,7 +69,6 @@ cv2.moveWindow(winName, 100, 100)
 with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
-
 #Definição da variável de nome dos alunos
 student_names = [x[:-4] for x in listdir(Path_ImagensDosAlunos) if x.endswith(".png")]
 
@@ -85,27 +84,6 @@ def get_rostos():
 			rostos_conhecidos.append(student_face_encoding[0])
 			nome_dos_rostos.append(student_name)
 	return rostos_conhecidos, nome_dos_rostos
-
-#------------------------------------------
-#-   Função para identificação do aluno   -
-#------------------------------------------
-def DetectaAluno(detected_face, rostos_cadastrados, nomes_cadastrados):
-    """
-    Identifica o aluno com base na face detectada.
-    
-    :param detected_face: A imagem da face detectada
-    :return: O nome do aluno identificado, ou uma string vazia se não for identificado
-    """
-	# Comparar com os rostos conhecidos
-    matches = face_recognition.compare_faces(rostos_cadastrados, detected_face)
-    face_distances = face_recognition.face_distance (rostos_cadastrados, detected_face)
-    melhor_id = np.argmin(face_distances)
-    if matches[melhor_id]:
-        nome = nomes_cadastrados[melhor_id]
-    else:
-        nome = "Desconhecido"
-
-    return nome
 
 
 #------------------------
@@ -155,31 +133,69 @@ Reactions_surprise = [
 	]
 Reactions_neutral = [
 	"Cada aula e uma nova\nchance de descobrir algo\nincrivel!",
-	"As vezes, o simples ato\nde começar e o primeiro\npasso para grandes\nconquistas.",
+	"As vezes, o simples ato\nde comecar e o primeiro\npasso para grandes\nconquistas.",
 	"Sua atitude positiva pode\ntransformar um dia comum\nem algo extraordinario!",
 	"De o seu melhor hoje; cada\npequeno esforco conta!",
 	"Aproveite o dia e faca dele\numa oportunidade de\ncrescimento!"
 	]
 
+import string    
 #--------------------------------------------
 #-   Função para cadastro de novos alunos   -
 #--------------------------------------------
 def CadastraAluno():
     # Exibe o Loop para cadastro dos alunos
     Capturando = True
+    text = ""
+    letters = string.ascii_lowercase + string.digits
     while Capturando:
         # Lê a webcam
         ret, cam = cap.read()
-
+		
+        TelaCadastro = cv2.imread(Path_TelaCadastro)
+		
+        key = cv2.waitKey(1)
+        for letter in letters:
+            if key == ord(letter):
+                text = text + letter
+		
+        cv2.putText(TelaCadastro, text, (20, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,0), 2)
+        
         # Atualiza a tela de cadastro
         img = cv2.hconcat([cam, TelaCadastro])
-
+		
+        
         # Exibe a tela
         cv2.imshow(winName, img)
-
+				
         # Verifica se o cadastro foi concluído
-        if cv2.waitKey(1) & 0xFF == ord('q'):  # Press 'q' to quit
+        if cv2.waitKey(1) & 0xFF == ord(" "):  # Press 'q' to quit
+            img_name = Path_ImagensDosAlunos+"/"+text+".png"
+            cv2.imwrite(img_name, cam)
             Capturando = False
+
+
+#------------------------------------------
+#-   Função para identificação do aluno   -
+#------------------------------------------
+def DetectaAluno(detected_face, rostos_cadastrados, nomes_cadastrados):
+    """
+    Identifica o aluno com base na face detectada.
+    
+    :param detected_face: A imagem da face detectada
+    :return: O nome do aluno identificado, ou uma string vazia se não for identificado
+    """
+	# Comparar com os rostos conhecidos
+    matches = face_recognition.compare_faces(rostos_cadastrados, detected_face)
+    face_distances = face_recognition.face_distance (rostos_cadastrados, detected_face)
+    melhor_id = np.argmin(face_distances)
+    if matches[melhor_id]:
+        nome = nomes_cadastrados[melhor_id]
+    else:
+        nome = "Desconhecido"
+
+    return nome
+
 
 #----------------------------------------------------
 #-   Função para identificação da emoção do aluno   -
@@ -380,7 +396,6 @@ while(DandoAula==True):
 		# Verifica se o cadastro foi concluído
 		if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
 			Capturando = False
-	
 
 	# Decide o fluxo com base no período
 	if Periodo == 1:
