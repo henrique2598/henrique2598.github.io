@@ -25,7 +25,7 @@ Path_TelaEncerramento = "Assets/Background-Final.png"
 Path_JsonClassDetails = "Assets/class_details.json"
 Path_FacialModel = "Assets/facial_expression_model_structure.json"
 Path_FacialWeights = "Assets/facial_expression_model_weights.h5"
-Path_ImagensDosAlunos = "Assets/Alunos Cadastrados/"  # Diretório com imagens dos alunos
+Path_ImagensDosAlunos = "Alunos Cadastrados"  # Diretório com imagens dos alunos
 
 #----------------------
 #-   Inicializações   -
@@ -66,7 +66,7 @@ with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
 #Definição da variável de nome dos alunos
-student_names = ['Igor', 'Gustavo', 'Henrique']  # Ideal fazermos simulando a lista de chamada
+student_names = ['henrique']  # Ideal fazermos simulando a lista de chamada
 
 # Função para carregar imagens de alunos e criar codificações
 def load_student_encodings():
@@ -74,7 +74,7 @@ def load_student_encodings():
     known_face_names = []
     
     for student_name in student_names:
-        image_path = f"{Path_ImagensDosAlunos}/{student_name}.jpg"
+        image_path = f"{Path_ImagensDosAlunos}/{student_name}.png"
         student_image = face_recognition.load_image_file(image_path)
         student_face_encoding = face_recognition.face_encodings(student_image)
         
@@ -309,12 +309,12 @@ while(DandoAula==True):
 		elif cv2.waitKey(1) & 0xFF == ord('e'):
 			Periodo = 1
 			TelaCaptura = cv2.imread(Path_TelaCaptura)
-			cv2.putText(TelaCadastro, "Entrada", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+			cv2.putText(TelaCaptura, "Entrada", (135, 215), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 		# Saída de alunos
 		elif cv2.waitKey(1) & 0xFF == ord('s'):
 			Periodo = 2
 			TelaCaptura = cv2.imread(Path_TelaCaptura)
-			cv2.putText(TelaCadastro, "Saida", (110, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+			cv2.putText(TelaCaptura, "Saida", (135, 215), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 
 	# Habilita a etapa de cadastro e inicializa a variável contadora de alunos registrados
 	Capturando = True
@@ -349,16 +349,16 @@ while(DandoAula==True):
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
 				# Grava as informações da turma
-				Student_Name = 'Aluno1'
+				#Student_Name = 'Aluno1'
 				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
 				# Reação personalizada de acordo com a emoção
-				GerarCondicionalDeEmocao(Student_emotion, Student_Name)
+				#GerarCondicionalDeEmocao(Student_emotion, Student_Name)
 
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCaptura])
 
 		# Adiciona as informações atualizadas na tela
-		cv2.putText(img, str(Total_Students), (920, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+		cv2.putText(img, str(Total_Students), (925, 280), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 		cv2.putText(img, str(Student_Name), (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 		cv2.putText(img, str(Student_emotion), (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
 
