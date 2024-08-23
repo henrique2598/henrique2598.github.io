@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import random
-#import face_recognition  # Precisamos adicionar essa parte
+import face_recognition  # Precisamos adicionar essa parte
 
 
 #--------------------------------------
@@ -69,26 +69,21 @@ with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
 
-'''#Definição da variável de nome dos alunos
+#Definição da variável de nome dos alunos
 student_names = ['henrique']  # Ideal fazermos simulando a lista de chamada
 
 # Função para carregar imagens de alunos e criar codificações
-def load_student_encodings():
-    known_face_encodings = []
-    known_face_names = []
-    
-    for student_name in student_names:
-        image_path = f"{Path_ImagensDosAlunos}/{student_name}.png"
-        student_image = face_recognition.load_image_file(image_path)
-        student_face_encoding = face_recognition.face_encodings(student_image)
-        
-        if student_face_encoding:
-            known_face_encodings.append(student_face_encoding[0])
-            known_face_names.append(student_name)
-    
-    return known_face_encodings, known_face_names
-
-known_face_encodings, known_face_names = load_student_encodings()
+def get_rostos():
+	rostos_conhecidos = []
+	nome_dos_rostos = []
+	for student_name in student_names:
+		image_path = f"{Path_ImagensDosAlunos}/{student_name}.png"
+		student_image = face_recognition.load_image_file(image_path)
+		student_face_encoding = face_recognition.face_encodings(student_image)
+		if (len(student_face_encoding) > 0):
+			rostos_conhecidos.append(student_face_encoding[0])
+			nome_dos_rostos.append(student_name)
+	return rostos_conhecidos, nome_dos_rostos
 
 #------------------------------------------
 #-   Função para identificação do aluno   -
@@ -101,22 +96,24 @@ def DetectaAluno(detected_face):
     :return: O nome do aluno identificado, ou uma string vazia se não for identificado
     """
     # Codificar a face detectada
-    detected_face_encoding = face_recognition.face_encodings(detected_face)
+    #detected_face_encoding = face_recognition.face_encodings(detected_face)  
+    #detected_face_encoding = detected_face_encoding[0]
     
-    if not detected_face_encoding:
-        return ""
-    
-    detected_face_encoding = detected_face_encoding[0]
-    
+
+    rostos_cadastrados, nomes_cadastrados = get_rostos()
+
+
     # Comparar com os rostos conhecidos
-    matches = face_recognition.compare_faces(known_face_encodings, detected_face_encoding)
-    name = ""
-    
-    if True in matches:
-        first_match_index = matches.index(True)
-        name = known_face_names[first_match_index]
-    
-    return name'''
+    matches = face_recognition.compare_faces(rostos_cadastrados, detected_face)
+    face_distances = face_recognition.face_distance (rostos_cadastrados, detected_face)
+    melhor_id = np.argmin(face_distances)
+    if matches[melhor_id]:
+        nome = nomes_cadastrados[melhor_id]
+    else:
+        nome = "Desconhecido"
+
+    return nome
+
 
 #------------------------
 #-   Reações de humor   -
@@ -338,6 +335,7 @@ while(DandoAula==True):
 	while(Capturando==True):
 		# Lê a webcam
 		ret, cam = cap.read()
+		frame = cam
 		gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
 
 		# Detecta os rostos
@@ -358,8 +356,11 @@ while(DandoAula==True):
 			detected_face = cv2.resize(detected_face, (48, 48)) #resize to 48x48
 			
 			#Validar se a turma está correta
-			Student_Name = "Aluno1"
-            #Student_Name = DetectaAluno(detected_face)
+			rgb_frame = frame[:, :, ::-1]
+			localizacao_dos_rostos = face_recognition.face_locations(rgb_frame)
+			rosto_desconhecidos = face_recognition.face_encodings(rgb_frame, localizacao_dos_rostos)
+			for (top, right, bottom, left), rosto_desconhecido in zip(localizacao_dos_rostos, rosto_desconhecidos):
+				Student_Name = DetectaAluno(rosto_desconhecido)
 
 			if (Student_Name != ""):
 				#Validar se o aluno já registrou a presença na entrada
