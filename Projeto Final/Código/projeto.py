@@ -89,22 +89,14 @@ def get_rostos():
 #------------------------------------------
 #-   Função para identificação do aluno   -
 #------------------------------------------
-def DetectaAluno(detected_face):
+def DetectaAluno(detected_face, rostos_cadastrados, nomes_cadastrados):
     """
     Identifica o aluno com base na face detectada.
     
     :param detected_face: A imagem da face detectada
     :return: O nome do aluno identificado, ou uma string vazia se não for identificado
     """
-    # Codificar a face detectada
-    #detected_face_encoding = face_recognition.face_encodings(detected_face)  
-    #detected_face_encoding = detected_face_encoding[0]
-    
-
-    rostos_cadastrados, nomes_cadastrados = get_rostos()
-
-
-    # Comparar com os rostos conhecidos
+	# Comparar com os rostos conhecidos
     matches = face_recognition.compare_faces(rostos_cadastrados, detected_face)
     face_distances = face_recognition.face_distance (rostos_cadastrados, detected_face)
     melhor_id = np.argmin(face_distances)
@@ -331,6 +323,7 @@ while(DandoAula==True):
 	# Habilita a etapa de cadastro e inicializa a variável contadora de alunos registrados
 	Capturando = True
 	Total_Students = 0
+	rostos_cadastrados, nomes_cadastrados = get_rostos()
 
 	# Exibe o Loop para registro dos alunos
 	while(Capturando==True):
@@ -359,7 +352,7 @@ while(DandoAula==True):
 			
 			#Validar se a turma está correta
 			try:
-				Student_Name = DetectaAluno(face_recognition.face_encodings(detected_face_RGB)[0])
+				Student_Name = DetectaAluno(face_recognition.face_encodings(detected_face_RGB)[0], rostos_cadastrados, nomes_cadastrados)
 			except:
 				Student_Name = "Desconhecido"
 
