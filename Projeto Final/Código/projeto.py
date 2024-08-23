@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 import pandas as pd
 import random
-import face_recognition  # Precisamos adicionar essa parte
+#import face_recognition  # Precisamos adicionar essa parte
 
 #--------------------------------------
 #-   Definição dos paths e variáveis  -
@@ -65,7 +65,8 @@ cv2.moveWindow(winName, 100, 100)
 with open(Path_JsonClassDetails, "r", encoding="utf-8") as j:
      class_details = json.loads(j.read())
 
-#Definição da variável de nome dos alunos
+
+'''#Definição da variável de nome dos alunos
 student_names = ['henrique']  # Ideal fazermos simulando a lista de chamada
 
 # Função para carregar imagens de alunos e criar codificações
@@ -112,59 +113,59 @@ def DetectaAluno(detected_face):
         first_match_index = matches.index(True)
         name = known_face_names[first_match_index]
     
-    return name
+    return name'''
 
 #------------------------
 #-   Reações de humor   -
 #------------------------
 Reactions_angry = [
-	"Respire fundo, transforme sua raiva em foco!",
-	"Cada desafio é uma oportunidade para crescer, até a frustração!",
-	"Controle suas emoções e domine seu dia!",
-	"Use essa energia para conquistar seus objetivos!",
-	"O que importa é como você escolhe reagir, não o que aconteceu!"
+	"Respire fundo, transforme\nsua raiva em foco!",
+	"Cada desafio e uma\noportunidade para crescer,\nate a frustracao!",
+	"Controle suas emocoes e\ndomine seu dia!",
+	"Use essa energia para\nconquistar seus\nobjetivos!",
+	"O que importa e como voce\nescolhe reagir, nao o que\naconteceu!"
 	]
 Reactions_disgust = [
-	"Encare o desconforto como um degrau para o sucesso!",
-	"Desafios momentâneos não definem seu dia, siga em frente!",
-	"Transforme o que te incomoda em motivação para vencer!",
-	"Você é mais forte do que qualquer situação desconfortável!",
-	"Foque no que importa: seu crescimento e aprendizado!"
+	"Encare o desconforto como\num degrau para o sucesso!",
+	"Desafios momentaneos nao\ndefinem seu dia, siga em\nfrente!",
+	"Transforme o que te\nincomoda em motivacao para\nvencer!",
+	"Voce e mais forte do que\nqualquer situacao\ndesconfortavel!",
+	"Foque no que importa: seu\ncrescimento e aprendizado!"
 	]
 Reactions_fear = [
-	"Coragem não é a ausência de medo, mas a decisão de seguir em frente!",
-	"Transforme o medo em combustível para sua vitória!",
-	"Cada passo dado com medo é um passo mais perto do sucesso!",
-	"Você é mais corajoso do que imagina; vá em frente!",
-	"Enfrente seus medos, eles são apenas oportunidades disfarçadas!",
+	"Coragem nao e a ausencia\nde medo, mas a decisao\nde seguir em frente!",
+	"Transforme o medo em\ncombustivel para sua\nvitoria!",
+	"Cada passo dado com medo\ne um passo mais perto\ndo sucesso!",
+	"Voce e mais corajoso do\nque imagina; va em frente!",
+	"Enfrente seus medos, eles\nsao apenas oportunidades\ndisfarcadas!",
 	]
 Reactions_happy = [
-	"Sua alegria é o combustível para um dia incrível!",
-	"Use sua energia positiva para brilhar ainda mais!",
-	"A felicidade de hoje é o começo de grandes conquistas!",
-	"Aproveite seu entusiasmo e transforme-o em aprendizado!",
-	"Seu sorriso é a chave para um dia produtivo e gratificante!"
+	"Sua alegria e o combustivel\npara um dia incrivel!",
+	"Use sua energia positiva\npara brilhar ainda mais!",
+	"A felicidade de hoje e o\ncomeco de grandes\nconquistas!",
+	"Aproveite seu entusiasmo e\ntransforme-o em\naprendizado!",
+	"Seu sorriso e a chave para\num dia produtivo e\ngratificante!"
 	]
 Reactions_sad = [
-	"Cada novo dia é uma nova chance de aprender algo incrível!",
-	"Você é capaz de coisas incríveis, acredite em si mesmo!",
-	"Mesmo os dias difíceis te ajudam a crescer!",
-	"Seu esforço hoje será sua vitória amanhã!",
-	"Nunca subestime o poder de um pequeno passo em frente!"
+	"Cada novo dia e uma nova\nchance de aprender\nalgo incrivel!",
+	"Voce e capaz de coisas\nincriveis, acredite em\nsi mesmo!",
+	"Mesmo os dias dificeis\nte ajudam a crescer!",
+	"Seu esforco hoje sera\nsua vitoria amanha!",
+	"Nunca subestime o poder de\num pequeno passo em frente!"
 	]
 Reactions_surprise = [
-	"A surpresa é a chance de explorar novas possibilidades!",
-	"Aceite o inesperado como uma oportunidade para aprender!",
-	"Deixe a surpresa inspirar sua curiosidade e entusiasmo!",
-	"O inesperado pode abrir portas para grandes descobertas!",
-	"Abrace a surpresa, ela pode levar você a novas aventuras!"
+	"A surpresa e a chance de\nexplorar novas\npossibilidades!",
+	"Aceite o inesperado como\numa oportunidade para\naprender!",
+	"Deixe a surpresa inspirar\nsua curiosidade e entusiasmo!",
+	"O inesperado pode abrir\nportas para grandes\ndescobertas!",
+	"Abrace a surpresa, ela\npode levar voce a novas\naventuras!"
 	]
 Reactions_neutral = [
-	"Cada aula é uma nova chance de descobrir algo incrível!",
-	"Às vezes, o simples ato de começar é o primeiro passo para grandes conquistas.",
-	"Sua atitude positiva pode transformar um dia comum em algo extraordinário!",
-	"Dê o seu melhor hoje; cada pequeno esforço conta!",
-	"Aproveite o dia e faça dele uma oportunidade de crescimento!"
+	"Cada aula e uma nova\nchance de descobrir algo\nincrivel!",
+	"As vezes, o simples ato\nde começar e o primeiro\npasso para grandes\nconquistas.",
+	"Sua atitude positiva pode\ntransformar um dia comum\nem algo extraordinario!",
+	"De o seu melhor hoje; cada\npequeno esforco conta!",
+	"Aproveite o dia e faca dele\numa oportunidade de\ncrescimento!"
 	]
 
 #--------------------------------------------
@@ -209,7 +210,7 @@ def DetectaEmocao(detected_face):
 #-------------------------------------------------------
 #-   Função para identificação da emoção do aluno  -
 #-------------------------------------------------------
-def GerarCondicionalDeEmocao(emotion, aluno):	
+def GerarCondicionalDeEmocao(cam, emotion, aluno):	
 	if (emotion=='angry'):
 		ReactionList = Reactions_angry
 	elif (emotion=='disgust'):
@@ -225,18 +226,29 @@ def GerarCondicionalDeEmocao(emotion, aluno):
 	else:
 		ReactionList = Reactions_neutral
 
-	Condicional = aluno + ", " + ReactionList[random.randint(0, len(ReactionList)-1)]
-	
-	TelaCondicional = cv2.imread(Path_TelaCondicional)
-	cv2.putText(TelaCondicional, Condicional, (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+	Condicional = aluno + ",\n" + ReactionList[random.randint(0, len(ReactionList)-1)]
 
+	TelaCondicional = cv2.imread(Path_TelaCondicional)
+	cv2.putText(TelaCondicional, str(aluno), (135, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+	cv2.putText(TelaCondicional, str(emotion), (150, 145), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+	
+	y0, dy = 200, 35
+	for i, line in enumerate(Condicional.split('\n')):
+		y = y0 + i*dy
+		cv2.putText(TelaCondicional, line, (45, y ), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255,255,255), 2)
+    
+	# Atualiza a tela de cadastro
+	img = cv2.hconcat([cam, TelaCondicional])
+	
 	# Atualiza a tela com a condicional
-	cv2.imshow(winName,TelaCondicional)
+	cv2.imshow(winName,img)
 	Reagindo=True
 	#  Encerrar o programa
 	while (Reagindo==True):
 		if cv2.waitKey(1) & 0xFF == ord('p'):
 			Reagindo = False
+
+
 #-------------------------------------------------------------------------------
 #-   Função para gravar as informações de presença e humor no banco de dados   -
 #-------------------------------------------------------------------------------
@@ -278,7 +290,6 @@ def GravarNoBanco(df_ListaDePresenca, aluno, emocao, periodo, horario, Total_Stu
 def GerarRelatorio(df_ListaDePresenca):
 	nome_arquivo = f"Relatorio_Turma_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
 	df_ListaDePresenca.to_excel(nome_arquivo, index=False)
-	print(f"Relatório gerado com sucesso: {nome_arquivo}")
 
 
 #----------------------------
@@ -351,19 +362,16 @@ while(DandoAula==True):
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
 				# Grava as informações da turma
-				#Student_Name = 'Aluno1'
 				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
 				# Reação personalizada de acordo com a emoção
-				#GerarCondicionalDeEmocao(Student_emotion, Student_Name)
+				GerarCondicionalDeEmocao(cam, Student_emotion, Student_Name)
 
 		# Atualiza a tela de cadastro
 		img = cv2.hconcat([cam, TelaCaptura])
 
 		# Adiciona as informações atualizadas na tela
 		cv2.putText(img, str(Total_Students), (925, 280), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-		cv2.putText(img, str(Student_Name), (760, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-		cv2.putText(img, str(Student_emotion), (760, 430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
-
+		
 		# Exibe a tela
 		cv2.imshow(winName,img)
 
