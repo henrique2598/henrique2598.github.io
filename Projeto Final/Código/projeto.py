@@ -349,7 +349,7 @@ while(DandoAula==True):
 				# Função que detecta a emoção
 				Student_emotion = DetectaEmocao(detected_face)
 				# Grava as informações da turma
-				Student_Name = 'Aluno1'
+				Student_Name = ""
 				df_ListaDePresenca, Total_Students = GravarNoBanco(df_ListaDePresenca, Student_Name, Student_emotion, Periodo, datetime.now(), Total_Students)
 				# Reação personalizada de acordo com a emoção
 				GerarCondicionalDeEmocao(Student_emotion, Student_Name)
