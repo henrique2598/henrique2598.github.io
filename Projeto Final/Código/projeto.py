@@ -12,7 +12,6 @@ import random
 from os import listdir
 import face_recognition
 
-
 #--------------------------------------
 #-   Definição dos paths e variáveis  -
 #--------------------------------------

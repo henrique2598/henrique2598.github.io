@@ -152,6 +152,62 @@
             <div class="step">
                 <h3>11. Fim</h3>
             </div>
+            <hr />
+    <h2>Bibliotecas utilizadas</h2>
+        <p>No projeto de reconhecimento facial e registro de emoções em sala de aula, cada biblioteca serve para funcionalidades específicas 
+            relacionadas ao processamento de imagens, aprendizado de máquina e manipulação de dados. Abaixo está a descrição do uso de cada biblioteca:
+        </p>
+            <h3>1. numpy (<code>import numpy as np</code>)</h3>
+        <p>
+            O <strong>NumPy</strong> é utilizado para manipulação de arrays e operações matemáticas, como lidar com matrizes de imagem e realizar cálculos vetoriais. No contexto de visão computacional, ele ajuda a manipular as imagens e as saídas dos modelos de aprendizado de máquina.
+        </p>
+
+        <h3>2. cv2 (<code>import cv2</code>)</h3>
+        <p>
+            O <strong>OpenCV</strong> é amplamente utilizado para processamento de imagens e vídeos. Ele captura imagens da câmera, faz o pré-processamento, como redimensionamento e conversão de cores, e auxilia na detecção de faces antes de serem processadas pelo sistema.
+        </p>
+
+        <h3>3. keras.utils (<code>from keras.utils import img_to_array</code>)</h3>
+        <p>
+            A função <code>img_to_array</code> do <strong>Keras</strong> converte uma imagem em um array <em>NumPy</em>, facilitando o processamento das imagens nos modelos de aprendizado profundo.
+        </p>
+
+        <h3>4. keras.models (<code>from keras.models import model_from_json</code>)</h3>
+        <p>
+            A função <code>model_from_json</code> carrega um modelo de rede neural salvo no formato JSON, permitindo a reutilização de um modelo pré-treinado para reconhecimento de emoções a partir das imagens.
+        </p>
+
+        <h3>5. json (<code>import json</code>)</h3>
+        <p>
+            A biblioteca <strong>JSON</strong> manipula dados no formato JSON, como salvar ou carregar modelos de rede neural e lidar com dados de configuração do projeto.
+        </p>
+
+        <h3>6. datetime (<code>from datetime import datetime</code>)</h3>
+        <p>
+            O <strong>datetime</strong> é usado para manipular datas e horários, como associar um timestamp aos eventos do sistema, foi utilizada no relatório para registrar o momento de entrada dos alunos e suas respectivas emoções.
+        </p>
+
+        <h3>7. pandas (<code>import pandas as pd</code>)</h3>
+        <p>
+            O <strong>Pandas</strong> organiza e manipula dados tabulares, criando relatórios em formato Excel (XLSX) com informações de presença e mudança de humor dos alunos no começo e fim da aula.
+        </p>
+
+        <h3>8. random (<code>import random</code>)</h3>
+        <p>
+            A biblioteca <strong>random</strong> é usada para gerar seleções aleatórias. No projeto, ela foi utilizada pra selecionar as frases de acordo com o humor dos alunos.
+        </p>
+
+        <h3>9. os (<code>from os import listdir</code>)</h3>
+        <p>
+            A função <code>listdir</code> da biblioteca <strong>os</strong> lista arquivos de um diretório, facilitando o carregamento de imagens e modelos do sistema de arquivos.
+        </p>
+
+        <h3>10. face_recognition (<code>import face_recognition</code>)</h3>
+        <p>
+            A biblioteca <strong>face_recognition</strong> é responsável pelo reconhecimento facial. Ela detecta e reconhece rostos em imagens e vídeos, permitindo a identificação de alunos para registrar presença e associar suas emoções.
+        </p>
+        <hr />
+    
             <hr>
             <a href="../index.html">Voltar para a Página Inicial</a>
         </div>
